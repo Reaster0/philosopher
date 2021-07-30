@@ -6,16 +6,16 @@
 #    By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/27 14:28:54 by earnaud           #+#    #+#              #
-#    Updated: 2021/07/27 14:31:13 by earnaud          ###   ########.fr        #
+#    Updated: 2021/07/30 16:44:34 by earnaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS		= main.c
 
 OBJS		= $(SRCS:.c=.o)
-NAME		= philosopher
+NAME		= philo
 cc			= clang
-CFLAGS		= -pthread #-Wall -Wextra -Werror
+CFLAGS		= -pthread -g #-Wall -Wextra -Werror
 %.o:		%.c
 			$(CC) $(CFLAGS) -c $< -o $@
 all:		$(NAME)
