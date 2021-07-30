@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/07/30 19:42:09 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/07/30 20:44:37 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int fork_create_assign(t_philosopher *philo, int nbr)
 	while (i < nbr)
 	{
 		pthread_mutex_init(forks + i, NULL);
+		(philo + i)->last_meal = 0;
 		(philo + i)->state = THINKING;
 		(philo + i)->fork_right = forks + i;
 		(philo + i)->fork_left = forks + j;
