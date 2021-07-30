@@ -6,11 +6,14 @@
 #    By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/27 14:28:54 by earnaud           #+#    #+#              #
-#    Updated: 2021/07/30 16:44:34 by earnaud          ###   ########.fr        #
+#    Updated: 2021/07/30 18:48:26 by earnaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS		= main.c
+SRCS		= main.c \
+				philo_usage.c \
+				threaded.c \
+				utils.c
 
 OBJS		= $(SRCS:.c=.o)
 NAME		= philo
