@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:52:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/02 18:53:55 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/02 19:07:39 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ void algorythm_even(t_philosopher *philo)
 			eat_even(philo);
 		philo->state = EATING;
 	}
-	else if (philo->state == EATING)
+	if (philo->state == EATING)
 	{
 		write_action(SLEEPING, philo->id);
 		usleep(philo->param->time_to_sleep);
 		philo->state = SLEEPING;
 	}
-	else if (philo->state == SLEEPING)
+	if (philo->state == SLEEPING)
 	{
 		write_action(THINKING, philo->id);
 		philo->state = THINKING;

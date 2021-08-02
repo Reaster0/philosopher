@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/02 18:58:19 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/02 19:04:53 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ int	thread_create(t_philosopher *philo, int nbr)
 	i = 0;
 	while (i < nbr)
 	{
-		if (pthread_create(&(philo + i++)->thread, NULL, &routine, philo + i))
+		if (pthread_create(&(philo + i)->thread, NULL, &routine, philo + i))
 			return (1);
+		i++;
 	}
 	return (0);
 }
@@ -106,6 +107,6 @@ void	write_action(t_state state, int id_philo)
 		printf("%ld %d is sleeping\n", time.tv_usec, id_philo + 1);
 	else if (state == TAKE_FORK)
 		printf("%ld %d has taken a fork\n", time.tv_usec, id_philo + 1);
-	else if (state = DIE)
+	else if (state == DIE)
 		printf("%ld %d has die\n", time.tv_usec, id_philo + 1);
 }
