@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/07/30 20:44:01 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/02 18:46:03 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_param
 	int time_to_eat;
 	int time_to_sleep;
 	int nbr_philo_eat;
-
 }				t_param;
 
 typedef struct s_philosopher
@@ -52,5 +51,7 @@ int create_philo(t_philosopher **philo, t_param *param);
 int fork_create_assign(t_philosopher *philo, int nbr);
 int	thread_create(t_philosopher *philo, int nbr);
 long ft_atoi(const char *str);
-void	write_action(t_state state, int id_philo);
-void *routine();
+void write_action(t_state state, int id_philo);
+void *routine(void *arg);
+void algorythm_even(t_philosopher *philo);
+void algorythm_odd(t_philosopher *philo);

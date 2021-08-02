@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:39:57 by earnaud           #+#    #+#             */
-/*   Updated: 2021/07/30 20:57:20 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/02 18:46:30 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,27 @@ void *die(t_philosopher *philo)
 {
 	write_action(DIE, philo->id);
 	philo->state = DIE;
-	pthread_detach(philo->thread);
+	// pthread_detach(philo->thread);
 }
 
-void *routine(t_philosopher *philo)
+void *routine(void *arg)
 {
 	struct timeval time;
+	t_philosopher *philo;
 
-	gettimeofday(&time, NULL);
-	if (philo->last_meal && (time.tv_usec - philo->last_meal) > philo->param->time_to_die)
-		die(philo);
-	else
-		eating(philo);
+	philo = (t_philosopher *)arg;
+	while (1)
+	{
+		gettimeofday(&time, NULL);
+		if (philo->last_meal && (time.tv_usec - philo->last_meal) > philo->param->time_to_die)
+		{
+			die(philo);
+			break;
+		}
+		else if (philo->param->nbr_philo % 2)
+			algorythm_odd(philo);
+		else
+			algorythm_even(philo);
+	}
+	return (0);
 }

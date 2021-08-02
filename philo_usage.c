@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/07/30 20:44:37 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/02 18:58:19 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ void	write_action(t_state state, int id_philo)
 	else if (state == THINKING)
 		printf("%ld %d is thinking\n", time.tv_usec, id_philo + 1);
 	else if (state == SLEEPING)
-		printf("%ld %d is sleeping\n", time.tv_usec, id_philo) + 1;
+		printf("%ld %d is sleeping\n", time.tv_usec, id_philo + 1);
 	else if (state == TAKE_FORK)
 		printf("%ld %d has taken a fork\n", time.tv_usec, id_philo + 1);
 	else if (state = DIE)
-		printf("%ld %d has die", time.tv_usec, id_philo + 1);
+		printf("%ld %d has die\n", time.tv_usec, id_philo + 1);
 }
