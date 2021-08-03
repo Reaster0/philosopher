@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/02 18:46:03 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/03 16:25:54 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_param
 	int time_to_eat;
 	int time_to_sleep;
 	int nbr_philo_eat;
+	int all_alive;
 }				t_param;
 
 typedef struct s_philosopher

@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/02 19:04:53 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/03 16:27:48 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,26 @@ int	thread_create(t_philosopher *philo, int nbr)
 
 int fork_create_assign(t_philosopher *philo, int nbr)
 {
-	int i;
-	int j;
+	int i, j;
 	pthread_mutex_t *forks;
 
 	forks = malloc(sizeof(pthread_mutex_t) * nbr);
 	if (!forks)
 		return (1);
 	i = 0;
-	j = nbr - 1;
+	j = 1;
 	while (i < nbr)
 	{
-		pthread_mutex_init(forks + i, NULL);
+		if (pthread_mutex_init(forks + i, NULL))
+			return (1);
 		(philo + i)->last_meal = 0;
 		(philo + i)->state = THINKING;
-		(philo + i)->fork_right = forks + i;
-		(philo + i)->fork_left = forks + j;
-		if (j == i)
-			j = i - 1;
+		(philo + i)->fork_left = forks + i;
+		if (j == nbr)
+			(philo + i)->fork_right = forks;
 		else
-			j--;
+			(philo + i)->fork_right = forks + j;
+		j++;
 		i++;
 	}
 	return (0);
@@ -66,6 +66,7 @@ int create_philo(t_philosopher **philo, t_param *param)
 		(*philo)[i].id = i;
 		(*philo)[i++].param = param;
 	}
+	(*philo)[0].param->all_alive = 1;
 	return (0);
 }
 
@@ -100,13 +101,13 @@ void	write_action(t_state state, int id_philo)
 	
 	gettimeofday(&time, NULL);
 	if (state == EATING)
-		printf("%ld %d is eating\n", time.tv_usec, id_philo + 1);
+		printf("%d %d is eating\n", time.tv_usec, id_philo + 1);
 	else if (state == THINKING)
-		printf("%ld %d is thinking\n", time.tv_usec, id_philo + 1);
+		printf("%d %d is thinking\n", time.tv_usec, id_philo + 1);
 	else if (state == SLEEPING)
-		printf("%ld %d is sleeping\n", time.tv_usec, id_philo + 1);
+		printf("%d %d is sleeping\n", time.tv_usec, id_philo + 1);
 	else if (state == TAKE_FORK)
-		printf("%ld %d has taken a fork\n", time.tv_usec, id_philo + 1);
+		printf("%d %d has taken a fork\n", time.tv_usec, id_philo + 1);
 	else if (state == DIE)
-		printf("%ld %d has die\n", time.tv_usec, id_philo + 1);
+		printf("%d %d has die\n", time.tv_usec, id_philo + 1);
 }

@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:52:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/02 19:07:39 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/03 16:50:23 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void eat_even(t_philosopher *philo)
 {
 	struct timeval time;
 
+	// printf("%d has left fork = %p and right = %p and param = %p\n", philo->id, philo->fork_left, philo->fork_right, philo->param);
 	pthread_mutex_lock(philo->fork_left);
 	write_action(TAKE_FORK, philo->id);
 	pthread_mutex_lock(philo->fork_right);
@@ -32,6 +33,7 @@ void eat_odd(t_philosopher *philo)
 {
 	struct timeval time;
 
+	//printf("%d has left fork = %p and right = %p and param %p\n", philo->id, philo->fork_left, philo->fork_right, philo->param);
 	pthread_mutex_lock(philo->fork_right);
 	write_action(TAKE_FORK, philo->id);
 	pthread_mutex_lock(philo->fork_left);
@@ -54,13 +56,13 @@ void algorythm_even(t_philosopher *philo)
 			eat_even(philo);
 		philo->state = EATING;
 	}
-	if (philo->state == EATING)
+	else if (philo->state == EATING)
 	{
 		write_action(SLEEPING, philo->id);
 		usleep(philo->param->time_to_sleep);
 		philo->state = SLEEPING;
 	}
-	if (philo->state == SLEEPING)
+	else if (philo->state == SLEEPING)
 	{
 		write_action(THINKING, philo->id);
 		philo->state = THINKING;
