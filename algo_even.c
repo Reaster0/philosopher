@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:52:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/03 16:50:23 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/03 18:09:10 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void eat_even(t_philosopher *philo)
 {
 	struct timeval time;
 
-	// printf("%d has left fork = %p and right = %p and param = %p\n", philo->id, philo->fork_left, philo->fork_right, philo->param);
 	pthread_mutex_lock(philo->fork_left);
 	write_action(TAKE_FORK, philo->id);
 	pthread_mutex_lock(philo->fork_right);
@@ -33,7 +32,6 @@ void eat_odd(t_philosopher *philo)
 {
 	struct timeval time;
 
-	//printf("%d has left fork = %p and right = %p and param %p\n", philo->id, philo->fork_left, philo->fork_right, philo->param);
 	pthread_mutex_lock(philo->fork_right);
 	write_action(TAKE_FORK, philo->id);
 	pthread_mutex_lock(philo->fork_left);
@@ -50,7 +48,7 @@ void algorythm_even(t_philosopher *philo)
 {
 	if (philo->state == THINKING)
 	{
-		if (philo->id % 2)
+		if ((philo->id + 1) % 2)
 			eat_odd(philo);
 		else
 			eat_even(philo);
