@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:39:57 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/03 16:50:09 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/03 18:12:18 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,8 @@ void *thinking(t_philosopher *philo)
 
 void *die(t_philosopher *philo)
 {
-	write_action(DIE, philo->id);
-	philo->state = DIE;
 	philo->param->all_alive = 0;
-	// pthread_detach(philo->thread);
+	write_action(DIE, philo->id);
 	return (0);
 }
 
