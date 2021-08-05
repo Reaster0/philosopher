@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:52:58 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/03 16:32:30 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/04 18:56:59 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,15 @@ int	thread_join(t_philosopher *philo, int nbr)
 		if (pthread_join((philo + i++)->thread, NULL))
 			return (1);
 	return (0);
+}
+
+double get_time(t_param *param)
+{
+	struct timeval time;
+
+	gettimeofday(&time, NULL);
+
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
 int main(int argc, char **argv)
