@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/05 14:08:52 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/05 18:02:54 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int create_philo(t_philosopher **philo, t_param *param)
 	int i;
 
 	i = 0;
+	param->alive_mutex = malloc(sizeof(pthread_mutexattr_t));
+	pthread_mutex_init(param->alive_mutex, NULL);
 	*philo = malloc(sizeof(t_philosopher) * param->nbr_philo);
 	if (!*philo)
 		return (1);

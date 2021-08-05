@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/05 15:39:37 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/05 18:01:49 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_param
 	int time_to_sleep;
 	int nbr_philo_eat;
 	int all_alive;
+	pthread_mutex_t *alive_mutex;
 	long long time_start;
 }				t_param;
 
@@ -57,4 +58,5 @@ void write_action(t_state state, int id_philo, t_param *param);
 void *routine(void *arg);
 void algorythm_even(t_philosopher *philo);
 void algorythm_odd(t_philosopher *philo);
-long long unsigned get_time(t_param *param);
+long long get_time(t_param *param);
+void *die(t_philosopher *philo);
