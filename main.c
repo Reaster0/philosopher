@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:52:58 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/04 18:56:59 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/05 14:50:36 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,20 @@ int	thread_join(t_philosopher *philo, int nbr)
 	return (0);
 }
 
-double get_time(t_param *param)
+long long get_time(t_param *param)
 {
 	struct timeval time;
 
 	gettimeofday(&time, NULL);
+		return ((time.tv_sec * 1000 + time.tv_usec / 1000) - param->time_start);
+}
 
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+void ft_test(void)
+{
+	struct timeval time;
+
+	gettimeofday(&time, NULL);
+	printf("le temps = %ld\n", (time.tv_sec * 1000 + time.tv_usec / 1000));
 }
 
 int main(int argc, char **argv)
@@ -37,14 +44,20 @@ int main(int argc, char **argv)
 	t_philosopher *philo;
 	//check error
 	
+	t_param param;
+	param.time_start = 0;
+	//param.time_start = get_time(&param);
+	printf("on commence avec temp = %lld\n", get_time(&param));
+	usleep(200);
+	printf("maintenant le temp = %lld\n", get_time(&param));
+	return 0;
+
+
 	if (set_philo(&philo, argv))
 		return (1);
 	if (fork_create_assign(philo, philo->param->nbr_philo))
 		return (1);
-	// for (int i = 0; i < philo->param->nbr_philo; i++)
-	// {
-	// 		printf("int the start %d has left fork = %p and right = %p and param = %p\n", (philo + i)->id, (philo + i)->fork_left, (philo + i)->fork_right, (philo + i)->param);
-	// }
+	philo->param->time_start = get_time(philo->param);
 	if (thread_create(philo, philo->param->nbr_philo))
 		return (1);
 	if (thread_join(philo, philo->param->nbr_philo))

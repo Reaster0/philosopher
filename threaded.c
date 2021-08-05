@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:39:57 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/03 18:12:18 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/05 14:07:56 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void *eating(t_philosopher *philo)
 {
 	pthread_mutex_lock(philo->fork_right);
-	write_action(TAKE_FORK, philo->id);
+	write_action(TAKE_FORK, philo->id, philo->param);
 	pthread_mutex_lock(philo->fork_left);
-	write_action(TAKE_FORK, philo->id);
-	write_action(EATING, philo->id);
+	write_action(TAKE_FORK, philo->id, philo->param);
+	write_action(EATING, philo->id, philo->param);
 	usleep(philo->param->time_to_eat);
 	pthread_mutex_unlock(philo->fork_left);
 	pthread_mutex_unlock(philo->fork_right);
@@ -27,14 +27,14 @@ void *eating(t_philosopher *philo)
 
 void *sleeping(t_philosopher *philo)
 {
-	write_action(SLEEPING, philo->id);
+	write_action(SLEEPING, philo->id, philo->param);
 	usleep(philo->param->time_to_eat);
 	return (0);
 }
 
 void *thinking(t_philosopher *philo)
 {
-	write_action(THINKING, philo->id);
+	write_action(THINKING, philo->id, philo->param);
 	usleep(philo->param->time_to_sleep);
 	return (0);
 }
@@ -42,23 +42,23 @@ void *thinking(t_philosopher *philo)
 void *die(t_philosopher *philo)
 {
 	philo->param->all_alive = 0;
-	write_action(DIE, philo->id);
+	write_action(DIE, philo->id, philo->param);
 	return (0);
 }
 
 void *routine(void *arg)
 {
-	struct timeval time;
+	long long time;
 	t_philosopher *philo;
 
 	philo = (t_philosopher *)arg;
 	while (philo->param->all_alive)
 	{
-		gettimeofday(&time, NULL);
-		if (philo->last_meal && (time.tv_usec - philo->last_meal) > philo->param->time_to_die)
+		time = get_time(philo->param);
+		if (philo->last_meal && (time - philo->last_meal) > philo->param->time_to_die)
 		{
 			die(philo);
-			printf("%d die at %d because last meal was at %d\n", (philo->id) + 1, time.tv_usec, philo->last_meal);
+			printf("%d die at %lld because last meal was at %lld\n", (philo->id) + 1, time, philo->last_meal);
 			break;
 		}
 		else if (philo->param->nbr_philo % 2)

@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:52:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/04 13:59:40 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/05 14:07:57 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int check_if_will_die(t_philosopher *philo, int usleep)
 {
-	struct timeval time;
+	long long time;
 
 	if (!philo->param->all_alive)
 		return (1);
-	gettimeofday(&time, NULL);
-	if (philo->last_meal && (time.tv_usec - philo->last_meal) + usleep > philo->param->time_to_die)
+	time = get_time(philo->param);
+	if (philo->last_meal && (time - philo->last_meal) + usleep > philo->param->time_to_die)
 	{
-		write_action(DIE, philo->id);
-		printf("%d die at %d because last meal was at %d\n", (philo->id) + 1, time.tv_usec, philo->last_meal);
+		write_action(DIE, philo->id, philo->param);
+		printf("%d die at %lld because last meal was at %lld\n", (philo->id) + 1, time, philo->last_meal);
 		philo->param->all_alive = 0;
 		return (1);
 	}
@@ -30,41 +30,35 @@ int check_if_will_die(t_philosopher *philo, int usleep)
 }
 
 void eat_even(t_philosopher *philo)
-{
-	struct timeval time;
-	
+{	
 	pthread_mutex_lock(philo->fork_left);
 	if (check_if_will_die(philo, philo->param->time_to_eat))
 		return ;
-	write_action(TAKE_FORK, philo->id);
+	write_action(TAKE_FORK, philo->id, philo->param);
 	pthread_mutex_lock(philo->fork_right);
 	if (check_if_will_die(philo, philo->param->time_to_eat))
 		return ;
-	write_action(TAKE_FORK, philo->id);
-	write_action(EATING, philo->id);
+	write_action(TAKE_FORK, philo->id, philo->param);
+	write_action(EATING, philo->id, philo->param);
 	usleep(philo->param->time_to_eat);
-	gettimeofday(&time, NULL);
-	philo->last_meal = time.tv_usec;
+	philo->last_meal = get_time(philo->param);
 	pthread_mutex_unlock(philo->fork_left);
 	pthread_mutex_unlock(philo->fork_right);
 }
 
 void eat_odd(t_philosopher *philo)
 {
-	struct timeval time;
-
 	pthread_mutex_lock(philo->fork_right);
 	if (check_if_will_die(philo, philo->param->time_to_eat))
 		return ;
-	write_action(TAKE_FORK, philo->id);
+	write_action(TAKE_FORK, philo->id, philo->param);
 	pthread_mutex_lock(philo->fork_left);
 	if (check_if_will_die(philo, philo->param->time_to_eat))
 		return ;
-	write_action(TAKE_FORK, philo->id);
-	write_action(EATING, philo->id);
-	gettimeofday(&time, NULL);
+	write_action(TAKE_FORK, philo->id, philo->param);
+	write_action(EATING, philo->id, philo->param);
 	usleep(philo->param->time_to_eat);
-	philo->last_meal = time.tv_usec;
+	philo->last_meal = get_time(philo->param);
 	pthread_mutex_unlock(philo->fork_right);
 	pthread_mutex_unlock(philo->fork_left);
 }
@@ -83,13 +77,13 @@ void algorythm_even(t_philosopher *philo)
 	{
 		if (check_if_will_die(philo, philo->param->time_to_sleep))
 			return ;
-		write_action(SLEEPING, philo->id);
+		write_action(SLEEPING, philo->id, philo->param);
 		usleep(philo->param->time_to_sleep);
 		philo->state = SLEEPING;
 	}
 	else if (philo->state == SLEEPING)
 	{
-		write_action(THINKING, philo->id);
+		write_action(THINKING, philo->id, philo->param);
 		philo->state = THINKING;
 	}
 }
