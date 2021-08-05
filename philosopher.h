@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/05 14:45:52 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/05 15:39:37 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,4 @@ void write_action(t_state state, int id_philo, t_param *param);
 void *routine(void *arg);
 void algorythm_even(t_philosopher *philo);
 void algorythm_odd(t_philosopher *philo);
-long long get_time(t_param *param);
+long long unsigned get_time(t_param *param);
