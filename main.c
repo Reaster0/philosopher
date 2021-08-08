@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:52:58 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/08 16:00:22 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/08 20:26:31 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,18 @@ long long get_time(t_param *param)
 	return (((time.tv_sec * 1000) + (time.tv_usec / 1000)) - param->time_start);
 }
 
+int ft_error(void)
+{
+	printf("error: bad arguments\n");
+	return (1);
+}
+
 int main(int argc, char **argv)
 {
 	t_philosopher *philo;
 	//check error
-
+	if (ft_check_error(argc, argv + 1))
+		return (ft_error());
 	if (set_philo(&philo, argv))
 		return (1);
 	if (fork_create_assign(philo, philo->param->nbr_philo))
