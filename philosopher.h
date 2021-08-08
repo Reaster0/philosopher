@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/05 18:01:49 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/08 16:16:18 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,3 +60,4 @@ void algorythm_even(t_philosopher *philo);
 void algorythm_odd(t_philosopher *philo);
 long long get_time(t_param *param);
 void *die(t_philosopher *philo);
+int ft_check_error(int argc, char **argv);
