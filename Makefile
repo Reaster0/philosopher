@@ -6,7 +6,7 @@
 #    By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/27 14:28:54 by earnaud           #+#    #+#              #
-#    Updated: 2021/08/08 19:59:36 by earnaud          ###   ########.fr        #
+#    Updated: 2021/08/20 14:31:58 by earnaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,5 +36,12 @@ fclean:		clean
 			$(RM) $(NAME)
 
 re:			fclean all
+
+build:
+			sudo docker build -t debug-philo .
+
+debug:		build
+			 sudo docker run -itv /$(shell pwd):/work debug-philo
+
 
 .PHONY:		all clean fclean re
