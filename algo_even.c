@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:52:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/05 17:59:56 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/18 16:49:15 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,12 @@ int check_if_dead(t_param *param)
 void eat_even(t_philosopher *philo)
 {
 	pthread_mutex_lock(philo->fork_left);
+	if (!check_all_alive(philo->param))
+		return ;
 	write_action(TAKE_FORK, philo->id, philo->param);
 	pthread_mutex_lock(philo->fork_right);
+	if (!check_all_alive(philo->param))
+		return ;
 	write_action(TAKE_FORK, philo->id, philo->param);
 	write_action(EATING, philo->id, philo->param);
 	philo->last_meal = get_time(philo->param);
@@ -70,8 +74,12 @@ void eat_even(t_philosopher *philo)
 void eat_odd(t_philosopher *philo)
 {
 	pthread_mutex_lock(philo->fork_right);
+	if (!check_all_alive(philo->param))
+		return ;
 	write_action(TAKE_FORK, philo->id, philo->param);
 	pthread_mutex_lock(philo->fork_left);
+	if (!check_all_alive(philo->param))
+		return ;
 	write_action(TAKE_FORK, philo->id, philo->param);
 	write_action(EATING, philo->id, philo->param);
 	philo->last_meal = get_time(philo->param);

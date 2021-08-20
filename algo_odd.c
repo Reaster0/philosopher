@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:54:41 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/09 15:27:47 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/18 16:49:34 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 void eat_odd_wait(t_philosopher *philo)
 {
 	pthread_mutex_lock(philo->fork_right);
+	if (!check_all_alive(philo->param))
+		return ;
 	write_action(TAKE_FORK, philo->id, philo->param);
 	usleep(1000);
 	pthread_mutex_lock(philo->fork_left);
+	if (!check_all_alive(philo->param))
+		return ;
 	write_action(TAKE_FORK, philo->id, philo->param);
 	write_action(EATING, philo->id, philo->param);
 	philo->last_meal = get_time(philo->param);
