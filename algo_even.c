@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:52:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/18 16:49:15 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/20 19:07:33 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,23 @@ void philo_sleep(t_philosopher *philo, long long sleep)
 	long long time;
 
 	i = 0;
-	if ((get_time(philo->param) - philo->last_meal) + sleep > philo->param->time_to_die)
+	time = get_time(philo->param);
+	if ((time - philo->last_meal) + sleep > philo->param->time_to_die)
 	{
-		//printf("%lld %d will only sleep %lld\n", get_time(philo->param), philo->id, time - sleep);
-		usleep(((get_time(philo->param) - sleep) - 7) * 1000);
+		//printf("%lld %d will only sleep %lld\n", time, philo->id, time - sleep);
+		//printf("he will sleep for %lld minus %lld\n", time, sleep);
+		if (sleep > time)
+			usleep((philo->param->time_to_die - time) * 1000); // maybe sleep -7
+		else
+			usleep(((time - sleep)) * 1000); //maybe sleep - 7
 		die(philo);
+		//printf("and has die\n");
 	}
 	else
+	{
+		//printf("%d sleep normally\n", philo->id);
 		usleep(sleep * 1000);
+	}
 }
 
 int check_if_dead(t_param *param)
@@ -56,36 +65,55 @@ int check_if_dead(t_param *param)
 
 void eat_even(t_philosopher *philo)
 {
+	//printf("eat_even with :%d\n", philo->id + 1);
 	pthread_mutex_lock(philo->fork_left);
 	if (!check_all_alive(philo->param))
+	{
+		pthread_mutex_unlock(philo->fork_right);
 		return ;
-	write_action(TAKE_FORK, philo->id, philo->param);
+	}	write_action(TAKE_FORK, philo->id, philo->param);
 	pthread_mutex_lock(philo->fork_right);
 	if (!check_all_alive(philo->param))
+	{
+		pthread_mutex_unlock(philo->fork_right);
+		pthread_mutex_unlock(philo->fork_left);
 		return ;
+	}
 	write_action(TAKE_FORK, philo->id, philo->param);
 	write_action(EATING, philo->id, philo->param);
 	philo->last_meal = get_time(philo->param);
-	philo_sleep(philo, philo->param->time_to_eat);
 	pthread_mutex_unlock(philo->fork_left);
 	pthread_mutex_unlock(philo->fork_right);
+	//printf("%d is going to sleep\n", philo->id + 1);
+	philo_sleep(philo, philo->param->time_to_eat);
+	//printf("done sleeping\n");
 }
 
 void eat_odd(t_philosopher *philo)
 {
+	//printf("eat_odd with :%d\n", philo->id + 1);
 	pthread_mutex_lock(philo->fork_right);
 	if (!check_all_alive(philo->param))
+	{
+		pthread_mutex_unlock(philo->fork_right);
 		return ;
+	}
 	write_action(TAKE_FORK, philo->id, philo->param);
 	pthread_mutex_lock(philo->fork_left);
 	if (!check_all_alive(philo->param))
+	{
+		pthread_mutex_unlock(philo->fork_right);
+		pthread_mutex_unlock(philo->fork_left);
 		return ;
+	}
 	write_action(TAKE_FORK, philo->id, philo->param);
 	write_action(EATING, philo->id, philo->param);
 	philo->last_meal = get_time(philo->param);
-	philo_sleep(philo, philo->param->time_to_eat);
 	pthread_mutex_unlock(philo->fork_right);
 	pthread_mutex_unlock(philo->fork_left);
+	//printf("%d is going to sleep\n", philo->id + 1);
+	philo_sleep(philo, philo->param->time_to_eat);
+	//printf("done sleeping\n");
 }
 
 void algorythm_even(t_philosopher *philo)

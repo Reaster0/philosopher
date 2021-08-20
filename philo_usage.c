@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/10 12:50:35 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/20 15:12:54 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,12 @@ int fork_create_assign(t_philosopher *philo, int nbr)
 int create_philo(t_philosopher **philo, t_param *param)
 {
 	int i;
+	//pthread_mutex_t *alive_mutex_temp;
 
 	i = 0;
-	param->alive_mutex = malloc(sizeof(pthread_mutexattr_t));
+	//alive_mutex_temp = malloc(sizeof(pthread_mutex_t));
+	//param->alive_mutex = alive_mutex_temp;
+	param->alive_mutex = malloc(sizeof(pthread_mutex_t));
 	if (pthread_mutex_init(param->alive_mutex, NULL))
 		return (1);
 	*philo = malloc(sizeof(t_philosopher) * param->nbr_philo);
