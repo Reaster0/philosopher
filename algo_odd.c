@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:54:41 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/20 19:04:26 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/21 15:01:37 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void eat_odd_wait(t_philosopher *philo)
 	pthread_mutex_lock(philo->fork_right);
 	if (!check_all_alive(philo->param))
 	{
+		//printf("eat odd wait %d has die and release fork right\n", philo->id);
 		pthread_mutex_unlock(philo->fork_right);
 		return ;
 	}
@@ -26,6 +27,7 @@ void eat_odd_wait(t_philosopher *philo)
 	pthread_mutex_lock(philo->fork_left);
 	if (!check_all_alive(philo->param))
 	{
+		//printf("eat even %d has die and release fork right\n", philo->id);
 		pthread_mutex_unlock(philo->fork_right);
 		pthread_mutex_unlock(philo->fork_left);
 		return ;
@@ -33,10 +35,10 @@ void eat_odd_wait(t_philosopher *philo)
 	write_action(TAKE_FORK, philo->id, philo->param);
 	write_action(EATING, philo->id, philo->param);
 	philo->last_meal = get_time(philo->param);
+	philo_sleep(philo, philo->param->time_to_eat);
 	pthread_mutex_unlock(philo->fork_right);
 	pthread_mutex_unlock(philo->fork_left);
 	//printf("%d is going to sleep\n", philo->id + 1);
-	philo_sleep(philo, philo->param->time_to_eat);
 	//printf("done sleeping\n");
 }
 
