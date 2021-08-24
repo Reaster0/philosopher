@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:39:57 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/20 15:29:06 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/24 12:20:08 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ int check_all_alive(t_param *param)
 	if (param->all_alive)
 		result = 1;
 	pthread_mutex_unlock(param->alive_mutex);
+	pthread_mutex_lock(param->eat_count_mutex);
+	if (param->nbr_philo_eat <= 0)
+		result = 0;
+	pthread_mutex_unlock(param->eat_count_mutex);
 	//printf("were not locked here\n"); //debug
 	return (result);
 }

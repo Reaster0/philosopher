@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/20 15:12:54 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/24 12:32:40 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,27 @@ int fork_create_assign(t_philosopher *philo, int nbr)
 	return (0);
 }
 
+int set_mutex(t_param *param)
+{
+	param->alive_mutex = malloc(sizeof(pthread_mutex_t));
+	if (!param->alive_mutex)
+		return (1);
+	if (pthread_mutex_init(param->alive_mutex, NULL))
+		return (1);
+	param->eat_count_mutex = malloc(sizeof(pthread_mutex_t));
+	if (!param->eat_count_mutex)
+		return (1);
+	if (pthread_mutex_init(param->eat_count_mutex, NULL))
+		return (1);
+}
+
 int create_philo(t_philosopher **philo, t_param *param)
 {
 	int i;
-	//pthread_mutex_t *alive_mutex_temp;
 
-	i = 0;
-	//alive_mutex_temp = malloc(sizeof(pthread_mutex_t));
-	//param->alive_mutex = alive_mutex_temp;
-	param->alive_mutex = malloc(sizeof(pthread_mutex_t));
-	if (pthread_mutex_init(param->alive_mutex, NULL))
+	if (set_mutex(param))
 		return (1);
+	i = 0;
 	*philo = malloc(sizeof(t_philosopher) * param->nbr_philo);
 	if (!*philo)
 		return (1);
@@ -102,13 +112,23 @@ int set_philo(t_philosopher **philo, char **argv)
 	return (0);
 }
 
+void decrement_eat_count(t_param *param)
+{
+	pthread_mutex_lock(param->eat_count_mutex);
+	param->nbr_philo_eat--;
+	pthread_mutex_unlock(param->eat_count_mutex);
+}
+
 void	write_action(t_state state, int id_philo, t_param *param)
 {
 	long long time;
 
 	time = get_time(param);
 	if (state == EATING)
+	{
 		printf("%lld %d is eating\n", time, id_philo + 1);
+		decrement_eat_count(param);
+	}
 	else if (state == THINKING)
 		printf("%lld %d is thinking\n", time, id_philo + 1);
 	else if (state == SLEEPING)

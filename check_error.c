@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 15:56:24 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/08 20:27:44 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/24 11:50:58 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int ft_check_error(int argc, char **argv)
 {
 	long temp;
 	
-	if (argc <= 4 || argc >= 6)
+	if (argc <= 4 || argc >= 7)
 		return (1);
 	while (*argv)
 	{

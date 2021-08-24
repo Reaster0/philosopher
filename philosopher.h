@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/18 16:13:39 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/24 12:00:18 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_param
 	int nbr_philo_eat;
 	int all_alive;
 	pthread_mutex_t *alive_mutex;
+	pthread_mutex_t *eat_count_mutex;
 	long long time_start;
 }				t_param;
 
