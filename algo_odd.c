@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:54:41 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/21 15:01:37 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/24 18:40:03 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,26 @@ void eat_odd_wait(t_philosopher *philo)
 {
 	//printf("eat_odd_wait with :%d\n", philo->id + 1);
 	pthread_mutex_lock(philo->fork_right);
-	if (!check_all_alive(philo->param))
+	if (!check_all_alive(philo->param, philo))
 	{
 		//printf("eat odd wait %d has die and release fork right\n", philo->id);
 		pthread_mutex_unlock(philo->fork_right);
 		return ;
 	}
-	write_action(TAKE_FORK, philo->id, philo->param);
+	write_action(TAKE_FORK, philo->id, philo->param, philo);
 	usleep(1000);
 	pthread_mutex_lock(philo->fork_left);
-	if (!check_all_alive(philo->param))
+	if (!check_all_alive(philo->param, philo))
 	{
 		//printf("eat even %d has die and release fork right\n", philo->id);
 		pthread_mutex_unlock(philo->fork_right);
 		pthread_mutex_unlock(philo->fork_left);
 		return ;
 	}
-	write_action(TAKE_FORK, philo->id, philo->param);
-	write_action(EATING, philo->id, philo->param);
-	philo->last_meal = get_time(philo->param);
-	philo_sleep(philo, philo->param->time_to_eat);
+	write_action(TAKE_FORK, philo->id, philo->param, philo);
+	write_action(EATING, philo->id, philo->param, philo);
+	//philo->last_meal = get_time(philo->param);
+	philo_sleep(philo, philo->param->time_to_eat, 1);
 	pthread_mutex_unlock(philo->fork_right);
 	pthread_mutex_unlock(philo->fork_left);
 	//printf("%d is going to sleep\n", philo->id + 1);
@@ -54,13 +54,13 @@ void algorythm_odd(t_philosopher *philo)
 	}
 	else if (philo->state == EATING)
 	{
-		write_action(SLEEPING, philo->id, philo->param);
-		philo_sleep(philo, philo->param->time_to_sleep);
+		write_action(SLEEPING, philo->id, philo->param, philo);
+		philo_sleep(philo, philo->param->time_to_sleep, 0);
 		philo->state = SLEEPING;
 	}
 	else if (philo->state == SLEEPING)
 	{
-		write_action(THINKING, philo->id, philo->param);
+		write_action(THINKING, philo->id, philo->param, philo);
 		philo->state = THINKING;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:39:57 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/24 12:20:08 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/24 16:26:19 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void *die(t_philosopher *philo)
 	}
 	philo->param->all_alive = 0;
 	pthread_mutex_unlock(philo->param->alive_mutex);
-	write_action(DIE, philo->id, philo->param);
+	write_action(DIE, philo->id, philo->param, philo);
 	//printf("%d die at %lld because last meal was at %lld, the difference is %lld\n", (philo->id) + 1, get_time(philo->param), philo->last_meal, get_time(philo->param) - philo->last_meal);
 	return (0);
 }
 
-int check_all_alive(t_param *param)
+int check_all_alive(t_param *param, t_philosopher *philo)
 {
 	int result;
 
@@ -36,10 +36,13 @@ int check_all_alive(t_param *param)
 	if (param->all_alive)
 		result = 1;
 	pthread_mutex_unlock(param->alive_mutex);
-	pthread_mutex_lock(param->eat_count_mutex);
-	if (param->nbr_philo_eat <= 0)
+	if (!philo->nbr_eat)
+	{
+		pthread_mutex_lock(param->alive_mutex);
+		param->all_alive = 0;
+		pthread_mutex_unlock(param->alive_mutex);
 		result = 0;
-	pthread_mutex_unlock(param->eat_count_mutex);
+	}
 	//printf("were not locked here\n"); //debug
 	return (result);
 }
@@ -50,11 +53,13 @@ void *routine(void *arg)
 	t_philosopher *philo;
 
 	philo = (t_philosopher *)arg;
-	while (check_all_alive(philo->param))
+	while (check_all_alive(philo->param, philo))
 	{
+		//printf("nbr_philo_eat of %d = %d\n",philo->id, philo->nbr_eat);
 		time = get_time(philo->param);
 		if (philo->last_meal && (time - philo->last_meal) > philo->param->time_to_die)
 		{
+			//printf("%d has die in the routine\n", philo->id);
 			die(philo);
 			break;
 		}
