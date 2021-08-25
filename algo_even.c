@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:52:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/24 18:42:29 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/25 14:48:40 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,40 @@ void philo_sleep(t_philosopher *philo, long long sleep, int eat) //sometimes it 
 {
 	//long long i;
 	long long time;
+	int need_die;
 
 	//i = 0;
+	need_die = 0;
 	time = get_time(philo->param);
+	//if (time == philo->param->time_to_die)
+	//	time++;
 	//printf("for philo %d, time =%lld, and sleep=%lld and time to die=%d\n", philo->id + 1, time, sleep, philo->param->time_to_die);
-	if ((time - philo->last_meal) + sleep > philo->param->time_to_die) //it was time - philo->last_meal) + sleep > 
+	if ((time - philo->last_meal) + sleep > philo->param->time_to_die || sleep >= philo->param->time_to_die) //it was time - philo->last_meal) + sleep > 
 	{
 		//printf("he will sleep for %lld minus %lld\n", time, sleep);
 		if (sleep >= time)
 			{
-		//	printf("%lld %d will only sleep %lld\n", time, philo->id + 1, philo->param->time_to_die - time);
-			usleep((philo->param->time_to_die - time) * 1000); // maybe sleep -7
+			//printf("%lld %d will only 1 sleep %lld\n", time, philo->id + 1, philo->param->time_to_die - time);
+			usleep((philo->param->time_to_die - (time - philo->last_meal)) * 1000);
+			need_die = 1;
 			}		
-		else //useless?
+		else if (time < philo->param->time_to_die)
 		{
-		//	printf("%lld %d will only sleep %lld\n", time, philo->id + 1, time - sleep);
-			usleep(((time - sleep)) * 1000); //maybe sleep - 7
-
+			//printf("%lld %d will only 2 sleep %lld, timedie =%d\n", time, philo->id + 1, (philo->param->time_to_die - time), philo->param->time_to_die);
+			//usleep(((time - sleep)) * 1000);
+			usleep((philo->param->time_to_die - time) * 1000);
+			need_die = 1;
 		}
-			die(philo);
-			//printf("and %d has die because time =%lld and timetodie%d\n", philo->id + 1,time, philo->param->time_to_die);
+		else
+		{
+			//printf("%lld %d will only 3 sleep %lld\n", time, philo->id + 1, sleep);
+			usleep (sleep * 1000);
+		}
+		if (need_die || sleep >= philo->param->time_to_die)
+			{
+				die(philo);
+		//printf("and %d has die because time =%lld and timetodie%d and sleep%lld\n", philo->id + 1,time, philo->param->time_to_die, sleep);
+			}
 	}
 	else
 	{
@@ -61,6 +75,7 @@ void philo_sleep(t_philosopher *philo, long long sleep, int eat) //sometimes it 
 	}
 	if (eat)
 		philo->last_meal = time;
+	//printf("end of sleep\n");
 }
 
 int check_if_dead(t_param *param)

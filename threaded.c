@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:39:57 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/24 16:26:19 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/25 14:48:47 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,10 @@ void *routine(void *arg)
 	{
 		//printf("nbr_philo_eat of %d = %d\n",philo->id, philo->nbr_eat);
 		time = get_time(philo->param);
-		if (philo->last_meal && (time - philo->last_meal) > philo->param->time_to_die)
+		//printf("routine time = %lld\n", time);
+		if ((time - philo->last_meal) > philo->param->time_to_die)
 		{
-			//printf("%d has die in the routine\n", philo->id);
+			//printf("%d has die in the routine, because time=%lld last_meal =%lld and timedie =%d\n", philo->id + 1, time, philo->last_meal, philo->param->time_to_die);
 			die(philo);
 			break;
 		}
