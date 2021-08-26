@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:52:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/26 16:48:19 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/26 19:20:58 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,31 +47,34 @@ void philo_sleep(t_philosopher *philo, long long sleep, int eat) //sometimes it 
 		if (sleep >= time)
 			{
 			//printf("%lld %d will only 1 sleep %lld\n", time, philo->id + 1, philo->param->time_to_die - time);
-			usleep((philo->param->time_to_die - (time - philo->last_meal)) * 1000);
+			ft_sleep(philo->param->time_to_die - (time - philo->last_meal));
+			//usleep((philo->param->time_to_die - (time - philo->last_meal)) * 1000);
 			need_die = 1;
 			}		
 		else if (time < philo->param->time_to_die)
 		{
 			//printf("%lld %d will only 2 sleep %lld, timedie =%d\n", time, philo->id + 1, (philo->param->time_to_die - time), philo->param->time_to_die);
-			//usleep(((time - sleep)) * 1000);
-			usleep((philo->param->time_to_die - time) * 1000);
+			ft_sleep(philo->param->time_to_die - time);
+			//usleep((philo->param->time_to_die - time) * 1000);
 			need_die = 1;
 		}
 		else
 		{
 			//printf("%lld %d will only 3 sleep %lld\n", time, philo->id + 1, sleep);
-			usleep (sleep * 1000);
+			ft_sleep(sleep);
+			//usleep(sleep * 1000);
 		}
 		if (need_die || sleep >= philo->param->time_to_die)
 			{
 				die(philo);
-		//printf("and %d has die because time =%lld and timetodie%d and sleep%lld\n", philo->id + 1,time, philo->param->time_to_die, sleep);
+				printf("and %d has die because time =%lld and timetodie%d and sleep%lld\n", philo->id + 1,time, philo->param->time_to_die, sleep);
 			}
 	}
 	else
 	{
 		//printf("%d sleep normally and time is %lld\n", philo->id + 1, time);
-		usleep(sleep * 1000);
+		ft_sleep(sleep);
+		//usleep(sleep * 1000);
 	}
 	if (eat)
 		philo->last_meal = time;

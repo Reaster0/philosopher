@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/24 18:39:00 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/26 18:04:12 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,3 +67,4 @@ void eat_odd(t_philosopher *philo);
 int ft_check_error(int argc, char **argv);
 void philo_sleep(t_philosopher *philo, long long sleep, int eat);
 int check_all_alive(t_param *param, t_philosopher *philo);
+void ft_sleep(long nbr);

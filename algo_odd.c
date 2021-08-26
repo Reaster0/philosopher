@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:54:41 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/26 16:55:51 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/26 18:26:18 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void eat_odd_wait(t_philosopher *philo)
 		return ;
 	}
 	write_action(TAKE_FORK, philo->id, philo->param, philo);
-	usleep(1000);
+	ft_sleep(1);
+	//usleep(1000);
 	pthread_mutex_lock(philo->fork_left);
 	if (!check_all_alive(philo->param, philo))
 	{
