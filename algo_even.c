@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:52:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/26 19:20:58 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/26 19:26:05 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int check_if_will_die(t_philosopher *philo, int sleep)
 	return (0);
 }
 
-void philo_sleep(t_philosopher *philo, long long sleep, int eat) //sometimes it die without needing for 214 200 200
+void philo_sleep(t_philosopher *philo, long long sleep, int eat)
 {
 	//long long i;
 	long long time;
@@ -41,6 +41,8 @@ void philo_sleep(t_philosopher *philo, long long sleep, int eat) //sometimes it 
 	//if (time == philo->param->time_to_die)
 	//	time++;
 	//printf("for philo %d, time =%lld, and sleep=%lld and time to die=%d\n", philo->id + 1, time, sleep, philo->param->time_to_die);
+	if (eat)
+		philo->last_meal = time;
 	if ((time - philo->last_meal) + sleep > philo->param->time_to_die || sleep >= philo->param->time_to_die) //it was time - philo->last_meal) + sleep > 
 	{
 		//printf("he will sleep for %lld minus %lld\n", time, sleep);
@@ -67,7 +69,7 @@ void philo_sleep(t_philosopher *philo, long long sleep, int eat) //sometimes it 
 		if (need_die || sleep >= philo->param->time_to_die)
 			{
 				die(philo);
-				printf("and %d has die because time =%lld and timetodie%d and sleep%lld\n", philo->id + 1,time, philo->param->time_to_die, sleep);
+				//printf("and %d has die because time =%lld and timetodie%d and sleep%lld\n", philo->id + 1,time, philo->param->time_to_die, sleep);
 			}
 	}
 	else
@@ -76,8 +78,6 @@ void philo_sleep(t_philosopher *philo, long long sleep, int eat) //sometimes it 
 		ft_sleep(sleep);
 		//usleep(sleep * 1000);
 	}
-	if (eat)
-		philo->last_meal = time;
 	//printf("end of sleep\n");
 }
 
