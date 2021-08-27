@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:52:58 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/27 15:24:17 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/27 20:40:27 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ long long get_time(t_param *param)
 
 int ft_error(void)
 {
-	printf("error: bad arguments\n");
+	write(STDERR_FILENO, "error: bad arguments\n", 22);
 	return (1);
 }
 
