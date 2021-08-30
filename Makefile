@@ -6,7 +6,7 @@
 #    By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/27 14:28:54 by earnaud           #+#    #+#              #
-#    Updated: 2021/08/26 18:12:45 by earnaud          ###   ########.fr        #
+#    Updated: 2021/08/30 15:10:32 by earnaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS		= main.c \
 OBJS		= $(SRCS:.c=.o)
 NAME		= philo
 cc			= clang
-CFLAGS		= -pthread -g #-Wall -Wextra -Werror
+CFLAGS		= -pthread -g -Wall -Wextra -Werror
 %.o:		%.c
 			$(CC) $(CFLAGS) -c $< -o $@
 all:		$(NAME)

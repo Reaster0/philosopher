@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 17:56:17 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/26 20:57:39 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/30 16:41:15 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void ft_sleep(long milliseconds)
 {
 	long long time_start;
 
+	if (milliseconds < 0)
+		milliseconds *= -1;
 	time_start = get_time_portable(0);
 	while (get_time_portable(time_start) < milliseconds)
 	{

@@ -6,124 +6,89 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:52:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/26 19:26:05 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/30 23:02:19 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-int check_if_will_die(t_philosopher *philo, int sleep)
+void	time_to_sleep(t_philosopher *philo, long long sleep, long long time)
 {
-	long long time;
+	int	need_die;
 
-	if (!philo->param->all_alive)
-		return (1);
-	time = get_time(philo->param);
-	if (philo->last_meal && (time - philo->last_meal) + sleep > philo->param->time_to_die)
-	{
-		write_action(DIE, philo->id, philo->param, philo);
-		printf("%d die at %lld because last meal was at %lld\n", (philo->id) + 1, time, philo->last_meal);
-		philo->param->all_alive = 0;
-		return (1);
-	}
-	return (0);
-}
-
-void philo_sleep(t_philosopher *philo, long long sleep, int eat)
-{
-	//long long i;
-	long long time;
-	int need_die;
-
-	//i = 0;
 	need_die = 0;
-	time = get_time(philo->param);
-	//if (time == philo->param->time_to_die)
-	//	time++;
-	//printf("for philo %d, time =%lld, and sleep=%lld and time to die=%d\n", philo->id + 1, time, sleep, philo->param->time_to_die);
-	if (eat)
-		philo->last_meal = time;
-	if ((time - philo->last_meal) + sleep > philo->param->time_to_die || sleep >= philo->param->time_to_die) //it was time - philo->last_meal) + sleep > 
+//	printf("%lld time to sleep\n", time);
+	if (sleep >= time)
 	{
-		//printf("he will sleep for %lld minus %lld\n", time, sleep);
-		if (sleep >= time)
-			{
-			//printf("%lld %d will only 1 sleep %lld\n", time, philo->id + 1, philo->param->time_to_die - time);
-			ft_sleep(philo->param->time_to_die - (time - philo->last_meal));
-			//usleep((philo->param->time_to_die - (time - philo->last_meal)) * 1000);
-			need_die = 1;
-			}		
-		else if (time < philo->param->time_to_die)
-		{
-			//printf("%lld %d will only 2 sleep %lld, timedie =%d\n", time, philo->id + 1, (philo->param->time_to_die - time), philo->param->time_to_die);
-			ft_sleep(philo->param->time_to_die - time);
-			//usleep((philo->param->time_to_die - time) * 1000);
-			need_die = 1;
-		}
-		else
-		{
-			//printf("%lld %d will only 3 sleep %lld\n", time, philo->id + 1, sleep);
-			ft_sleep(sleep);
-			//usleep(sleep * 1000);
-		}
-		if (need_die || sleep >= philo->param->time_to_die)
-			{
-				die(philo);
-				//printf("and %d has die because time =%lld and timetodie%d and sleep%lld\n", philo->id + 1,time, philo->param->time_to_die, sleep);
-			}
+		ft_sleep(philo->param->time_to_die - (time - philo->last_meal));
+		need_die = 1;
+	}
+	else if (time < philo->param->time_to_die)
+	{
+		ft_sleep(philo->param->time_to_die - time);
+		need_die = 1;
 	}
 	else
-	{
-		//printf("%d sleep normally and time is %lld\n", philo->id + 1, time);
 		ft_sleep(sleep);
-		//usleep(sleep * 1000);
+	if (need_die || sleep >= philo->param->time_to_die)
+		die(philo);
+}
+
+void	philo_sleep(t_philosopher *philo, long long sleep, int eat)
+{
+	long long	time;
+
+	time = get_time(philo->param);
+	if (eat)
+		philo->last_meal = time;
+	//printf("%lld philo %d sleep %lld and eat %d\n", time, philo->id + 1, sleep, eat);
+	if ((time - philo->last_meal) + sleep > philo->param->time_to_die || sleep
+		>= philo->param->time_to_die)
+		time_to_sleep(philo, sleep, time);
+	else
+	{
+		//printf("%lld ft_sleep\n", time);
+		ft_sleep(sleep);
 	}
-	//printf("end of sleep\n");
 }
 
-int check_if_dead(t_param *param)
+void	eat_even(t_philosopher *philo)
 {
-	pthread_mutex_lock(param->alive_mutex);
-	if (!param->all_alive)
-		return (1);
-	pthread_mutex_unlock(param->alive_mutex);
-	return (0);
-}
-
-void eat_even(t_philosopher *philo)
-{
-	//printf("eat_even with :%d\n", philo->id + 1);
-	//printf("%d has taken the left fork %p\n",philo->id + 1, philo->fork_left);
+	if (philo->param->nbr_philo % 2 && (get_time(philo->param) - philo->last_meal) + philo->param->time_to_eat > philo->param->time_to_die && (philo->param->time_to_eat * 2) + philo->param->time_to_sleep >= philo->param->time_to_die)
+	{
+	//	printf("fork too for %d time %lld last meal %lld time die %d\n",philo->id +1, get_time(philo->param), philo->last_meal, philo->param->time_to_die);
+		ft_sleep(philo->param->time_to_die - (get_time(philo->param) - philo->last_meal));
+		die(philo);
+	}
 	pthread_mutex_lock(philo->fork_left);
 	if (!check_all_alive(philo->param, philo))
 	{
 		pthread_mutex_unlock(philo->fork_left);
-		return ;
+		return;
 	}
 	write_action(TAKE_FORK, philo->id, philo->param, philo);
-	//printf("%d has taken the right fork %p\n",philo->id + 1, philo->fork_right);
+	if (philo->param->nbr_philo % 2 && (get_time(philo->param) - philo->last_meal) + philo->param->time_to_eat > philo->param->time_to_die && (philo->param->time_to_eat * 2) + philo->param->time_to_sleep >= philo->param->time_to_die)
+	{
+	//	printf("fork too for %d time %lld last meal %lld time die %d\n",philo->id +1, get_time(philo->param), philo->last_meal, philo->param->time_to_die);
+		ft_sleep(philo->param->time_to_die - (get_time(philo->param) - philo->last_meal));
+		die(philo);
+	}
 	pthread_mutex_lock(philo->fork_right);
 	if (!check_all_alive(philo->param, philo))
 	{
-	//	printf("eat even %d has die and release fork right and left\n", philo->id);
 		pthread_mutex_unlock(philo->fork_left);
 		pthread_mutex_unlock(philo->fork_right);
-		return ;
+		return;
 	}
 	write_action(TAKE_FORK, philo->id, philo->param, philo);
 	write_action(EATING, philo->id, philo->param, philo);
-	//philo->last_meal = get_time(philo->param);
 	philo_sleep(philo, philo->param->time_to_eat, 1);
 	pthread_mutex_unlock(philo->fork_left);
 	pthread_mutex_unlock(philo->fork_right);
-	//printf("%d is going to sleep\n", philo->id + 1);
-	//printf("done sleeping\n");
 }
 
-void eat_odd(t_philosopher *philo)
+void	eat_odd(t_philosopher *philo)
 {
-	//printf("eat_odd with :%d\n", philo->id + 1);
-	//printf("%d has taken the right fork %p\n",philo->id + 1, philo->fork_right);
 	pthread_mutex_lock(philo->fork_right);
 	if (!check_all_alive(philo->param, philo))
 	{
@@ -131,7 +96,6 @@ void eat_odd(t_philosopher *philo)
 		return ;
 	}
 	write_action(TAKE_FORK, philo->id, philo->param, philo);
-	//printf("%d has taken the left fork %p\n",philo->id + 1, philo->fork_left);
 	pthread_mutex_lock(philo->fork_left);
 	if (!check_all_alive(philo->param, philo))
 	{
@@ -141,15 +105,12 @@ void eat_odd(t_philosopher *philo)
 	}
 	write_action(TAKE_FORK, philo->id, philo->param, philo);
 	write_action(EATING, philo->id, philo->param, philo);
-	philo->last_meal = get_time(philo->param);
 	philo_sleep(philo, philo->param->time_to_eat, 1);
 	pthread_mutex_unlock(philo->fork_right);
 	pthread_mutex_unlock(philo->fork_left);
-	//printf("%d is going to sleep\n", philo->id + 1);
-	//printf("done sleeping\n");
 }
 
-void algorythm_even(t_philosopher *philo)
+void	algorythm_even(t_philosopher *philo)
 {
 	if (philo->state == THINKING)
 	{

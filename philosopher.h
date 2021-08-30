@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/26 18:04:12 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/30 14:52:15 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_param
 
 typedef struct s_philosopher
 {
-	int				id;  //the id is offseted by one
+	int				id;
 	pthread_t		thread;
 	pthread_mutex_t	*fork_left;
 	pthread_mutex_t	*fork_right;
