@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/30 12:43:16 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/31 13:50:34 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	thread_create(t_philosopher *philo, int nbr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < nbr)
@@ -26,54 +26,7 @@ int	thread_create(t_philosopher *philo, int nbr)
 	return (0);
 }
 
-int fork_create_assign_1(t_philosopher *philo)
-{
-	pthread_mutex_t *forks;
-
-	forks = malloc(sizeof(pthread_mutex_t) * 2);
-	if (!forks)
-		return (1);
-	if (pthread_mutex_init(forks, NULL))
-		return (1);
-	if (pthread_mutex_init(forks + 1, NULL))
-		return (1);
-	philo->last_meal = 0;
-	philo->state = THINKING;
-	philo->fork_left = forks;
-	philo->fork_right = forks + 1;
-	return (0);
-}
-
-int fork_create_assign(t_philosopher *philo, int nbr)
-{
-	int i, j;
-	pthread_mutex_t *forks;
-
-	if (nbr == 1)
-		return (fork_create_assign_1(philo));
-	forks = malloc(sizeof(pthread_mutex_t) * nbr);
-	if (!forks)
-		return (1);
-	i = 0;
-	j = 1;
-	while (i < nbr)
-	{
-		if (pthread_mutex_init(forks + i, NULL))
-			return (1);
-		(philo + i)->last_meal = 0;
-		(philo + i)->state = THINKING;
-		(philo + i)->fork_left = forks + i;
-		if (j == nbr)
-			(philo + i)->fork_right = forks;
-		else
-			(philo + i)->fork_right = forks + j;
-		j++;
-		i++;
-	}
-	return (0);
-}
-
-int set_mutex(t_param *param)
+int	set_mutex(t_param *param)
 {
 	param->alive_mutex = malloc(sizeof(pthread_mutex_t));
 	if (!param->alive_mutex)
@@ -83,9 +36,9 @@ int set_mutex(t_param *param)
 	return (0);
 }
 
-int create_philo(t_philosopher **philo, t_param *param)
+int	create_philo(t_philosopher **philo, t_param *param)
 {
-	int i;
+	int	i;
 
 	if (set_mutex(param))
 		return (1);
@@ -103,9 +56,9 @@ int create_philo(t_philosopher **philo, t_param *param)
 	return (0);
 }
 
-int set_philo(t_philosopher **philo, char **argv)
+int	set_philo(t_philosopher **philo, char **argv)
 {
-	t_param *param;
+	t_param	*param;
 
 	param = malloc(sizeof(t_param));
 	if (!param)
@@ -129,10 +82,10 @@ int set_philo(t_philosopher **philo, char **argv)
 	return (0);
 }
 
-void	write_action(t_state state, int id_philo, t_param *param,
-		t_philosopher *philo)
+void	write_action(t_state state, int id_philo,
+			t_param *param, t_philosopher *philo)
 {
-	long long time;
+	long long	time;
 
 	time = get_time(param);
 	if (state == EATING)

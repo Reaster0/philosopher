@@ -6,13 +6,13 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:45:08 by earnaud           #+#    #+#             */
-/*   Updated: 2021/07/30 18:45:24 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/31 13:59:13 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-long ft_atoi(const char *str)
+long	ft_atoi(const char *str)
 {
 	int		i;
 	long	nbr;

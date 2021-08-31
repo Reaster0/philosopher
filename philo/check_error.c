@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/08 15:56:24 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/24 11:50:58 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/31 13:36:28 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ft_isdigit(int c)
 		return (1);
 	return (0);
 }
+
 int	other_than_num(const char *str)
 {
 	while (*str)
@@ -29,10 +30,10 @@ int	other_than_num(const char *str)
 	return (0);
 }
 
-int ft_check_error(int argc, char **argv)
+int	ft_check_error(int argc, char **argv)
 {
-	long temp;
-	
+	long	temp;
+
 	if (argc <= 4 || argc >= 7)
 		return (1);
 	while (*argv)

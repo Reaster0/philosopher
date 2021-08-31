@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:52:58 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/30 14:23:16 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/31 13:37:39 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	thread_join(t_philosopher *philo, int nbr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < nbr)
@@ -23,25 +23,25 @@ int	thread_join(t_philosopher *philo, int nbr)
 	return (0);
 }
 
-long long get_time(t_param *param)
+long long	get_time(t_param *param)
 {
-	struct timeval time;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
 	return (((time.tv_sec * 1000) + (time.tv_usec / 1000)) - param->time_start);
 }
 
-int ft_error(void)
+int	ft_error(void)
 {
 	write(STDERR_FILENO, "error: bad arguments\n", 22);
 	return (1);
 }
 
-int free_all(t_philosopher **philo, int no_fork)
+int	free_all(t_philosopher **philo, int no_fork)
 {
-	int i;
-	void *to_free1;
-	void *to_free2;
+	int		i;
+	void	*to_free1;
+	void	*to_free2;
 
 	to_free1 = *philo;
 	if (!no_fork)
@@ -62,9 +62,9 @@ int free_all(t_philosopher **philo, int no_fork)
 	return (1);
 }
 
-int main(int argc, char **argv)
- {
-	t_philosopher *philo;
+int	main(int argc, char **argv)
+{
+	t_philosopher	*philo;
 
 	if (ft_check_error(argc, argv + 1))
 		return (ft_error());
