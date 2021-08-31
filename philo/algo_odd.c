@@ -6,40 +6,30 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:54:41 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/30 23:02:07 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/08/31 12:04:32 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void eat_odd_wait(t_philosopher *philo)
+void	eat_odd_wait(t_philosopher *philo)
 {
-	if ((get_time(philo->param) - philo->last_meal) + philo->param->time_to_eat > philo->param->time_to_die && (philo->param->time_to_eat * 2) + philo->param->time_to_sleep >=  philo->param->time_to_die)
-	{
-		//printf("fork too for %d time %lld last meal %lld time die %d\n",philo->id+1, get_time(philo->param), philo->last_meal, philo->param->time_to_die);
-		ft_sleep(philo->param->time_to_die - (get_time(philo->param) - philo->last_meal));
-		die(philo);
-	}
+	odd_late_fork(philo);
 	pthread_mutex_lock(philo->fork_right);
 	if (!check_all_alive(philo->param, philo))
 	{
 		pthread_mutex_unlock(philo->fork_right);
-		return;
+		return ;
 	}
 	write_action(TAKE_FORK, philo->id, philo->param, philo);
 	ft_sleep(1);
-	if ((get_time(philo->param) - philo->last_meal) + philo->param->time_to_eat > philo->param->time_to_die && (philo->param->time_to_eat * 2) + philo->param->time_to_sleep >= philo->param->time_to_die)
-	{
-		//printf("fork too for %d time %lld last meal %lld time die %d\n",philo->id +1, get_time(philo->param), philo->last_meal, philo->param->time_to_die);
-		ft_sleep(philo->param->time_to_die - (get_time(philo->param) - philo->last_meal));
-		die(philo);
-	}
+	odd_late_fork(philo);
 	pthread_mutex_lock(philo->fork_left);
 	if (!check_all_alive(philo->param, philo))
 	{
 		pthread_mutex_unlock(philo->fork_right);
 		pthread_mutex_unlock(philo->fork_left);
-		return;
+		return ;
 	}
 	write_action(TAKE_FORK, philo->id, philo->param, philo);
 	write_action(EATING, philo->id, philo->param, philo);
@@ -48,9 +38,9 @@ void eat_odd_wait(t_philosopher *philo)
 	pthread_mutex_unlock(philo->fork_left);
 }
 
-void algorythm_odd(t_philosopher *philo)
+void	algorythm_odd(t_philosopher *philo)
 {
-		if (philo->state == THINKING)
+	if (philo->state == THINKING)
 	{
 		if ((philo->id + 1) % 2 && philo->param->nbr_philo != 1)
 			eat_odd_wait(philo);
