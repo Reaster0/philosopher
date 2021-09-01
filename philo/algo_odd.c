@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:54:41 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/31 12:04:32 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/01 11:05:49 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,22 @@ void	eat_odd_wait(t_philosopher *philo)
 	pthread_mutex_unlock(philo->fork_left);
 }
 
+void	eat_one(t_philosopher *philo)
+{
+	pthread_mutex_lock(philo->fork_left);
+	write_action(TAKE_FORK, philo->id, philo->param, philo);
+	ft_sleep(philo->param->time_to_die);
+	die(philo);
+	pthread_mutex_unlock(philo->fork_left);
+}
+
 void	algorythm_odd(t_philosopher *philo)
 {
 	if (philo->state == THINKING)
 	{
-		if ((philo->id + 1) % 2 && philo->param->nbr_philo != 1)
+		if (philo->param->nbr_philo == 1)
+			eat_one(philo);
+		else if ((philo->id + 1) % 2)
 			eat_odd_wait(philo);
 		else
 			eat_even(philo);
