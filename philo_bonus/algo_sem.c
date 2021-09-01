@@ -6,11 +6,18 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 18:30:54 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/31 19:35:30 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/01 14:34:49 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+void eat_one(t_philosopher *philo)
+{
+	write_action(TAKE_FORK, philo->id, philo->param, philo);
+	ft_sleep(philo->param->time_to_die);
+	die(philo);
+}
 
 void	eat_sem(t_philosopher *philo)
 {
@@ -37,12 +44,16 @@ void	eat_sem(t_philosopher *philo)
 
 void	algorythm_sem(t_philosopher *philo)
 {
-		if (philo->state == THINKING)
+	if (philo->state == THINKING)
 	{
-	// 	if ((philo->id + 1) % 2)
-	// 		eat_odd(philo);
-	// 	else
-			eat_sem(philo);
+		if (philo->param->nbr_philo == 1)
+		{
+			eat_one(philo);
+			return ;
+		}
+		if ((philo->id + 1) % 2)
+			ft_sleep(100);
+		eat_sem(philo);
 		philo->state = EATING;
 	}
 	else if (philo->state == EATING)

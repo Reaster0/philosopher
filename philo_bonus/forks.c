@@ -36,6 +36,7 @@ int	fork_create_assign(t_philosopher *philo, int nbr)
 	sem_t			*forks;
 
 	i = 0;
+	sem_unlink("forks");
 	forks = sem_open("forks", O_CREAT, S_IRWXU, nbr);
 	if (forks == SEM_FAILED)
 		return (1);

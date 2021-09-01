@@ -20,6 +20,7 @@
 # include <time.h>
 # include <sys/time.h>
 # include <semaphore.h>
+# include <fcntl.h>
 
 typedef enum e_state
 {

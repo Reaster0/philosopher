@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:52:58 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/31 19:35:04 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/01 14:14:31 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,10 @@ int	ft_error(void)
 
 int	free_all(t_philosopher **philo)
 {
-	int		i;
-	
-	i = (*philo)->param->nbr_philo;
 	pthread_mutex_destroy((*philo)->param->alive_mutex);
 	free((*philo)->param->alive_mutex);
 	free((*philo)->param);
 	sem_close((*philo)->forks);
-	free((*philo)->forks);
 	free(*philo);
 	return (1);
 }
@@ -66,6 +62,6 @@ int	main(int argc, char **argv)
 		return (free_all(&philo));
 	if (thread_join(philo, philo->param->nbr_philo))
 		return (free_all(&philo));
-	//free_all(&philo);
+	free_all(&philo);
 	return (0);
 }
