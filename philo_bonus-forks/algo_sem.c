@@ -6,14 +6,15 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 18:30:54 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/01 15:08:38 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/01 18:16:57 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-void eat_one(t_philosopher *philo)
+void	eat_one(t_philosopher *philo)
 {
+	check_all_alive(philo);
 	write_action(TAKE_FORK, philo->id, philo->param, philo);
 	ft_sleep(philo->param->time_to_die);
 	die(philo);
@@ -22,19 +23,10 @@ void eat_one(t_philosopher *philo)
 void	eat_sem(t_philosopher *philo)
 {
 	sem_wait(philo->forks);
-	if (!check_all_alive(philo->param, philo))
-	{
-		sem_post(philo->forks);
-		return ;
-	}
+	check_all_alive(philo);
 	write_action(TAKE_FORK, philo->id, philo->param, philo);
 	sem_wait(philo->forks);
-	if (!check_all_alive(philo->param, philo))
-	{
-		sem_post(philo->forks);
-		sem_post(philo->forks);
-		return ;
-	}
+	check_all_alive(philo);
 	write_action(TAKE_FORK, philo->id, philo->param, philo);
 	write_action(EATING, philo->id, philo->param, philo);
 	philo_sleep(philo, philo->param->time_to_eat, 1);
@@ -52,7 +44,8 @@ void	algorythm_sem(t_philosopher *philo)
 			return ;
 		}
 		if ((philo->id + 1) % 2)
-			ft_sleep(1);
+			usleep(100);
+			//ft_sleep(1);
 		eat_sem(philo);
 		philo->state = EATING;
 	}

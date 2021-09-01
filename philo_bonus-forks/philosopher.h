@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/31 18:55:07 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/01 18:44:49 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <sys/time.h>
 # include <semaphore.h>
 # include <fcntl.h>
+# include <signal.h>
 
 typedef enum e_state
 {
@@ -39,6 +40,8 @@ typedef struct s_param
 	int				time_to_sleep;
 	int				nbr_philo_eat;
 	int				all_alive;
+	sem_t			*writing;
+	sem_t			*sem_alive;
 	pthread_mutex_t	*alive_mutex;
 	long long		time_start;
 }					t_param;
@@ -63,7 +66,7 @@ int			thread_create(t_philosopher *philo, int nbr);
 long		ft_atoi(const char *str);
 void		write_action(t_state state, int id_philo,
 				t_param *param, t_philosopher *philo);
-void		*routine(void *arg);
+void		*routine(t_philosopher *philo);
 void		algorythm_even(t_philosopher *philo);
 void		algorythm_odd(t_philosopher *philo);
 long long	get_time(t_param *param);
@@ -72,11 +75,12 @@ void		eat_even(t_philosopher *philo);
 void		eat_odd(t_philosopher *philo);
 int			ft_check_error(int argc, char **argv);
 void		philo_sleep(t_philosopher *philo, long long sleep, int eat);
-int			check_all_alive(t_param *param, t_philosopher *philo);
+int			check_all_alive(t_philosopher *philo);
 void		ft_sleep(long nbr);
 void		odd_late_fork(t_philosopher *philo);
 int			fork_create_assign(t_philosopher *philo, int nbr);
 void		algorythm_sem(t_philosopher *philo);
+int			process_create(t_philosopher *philo);
 
 
 #endif

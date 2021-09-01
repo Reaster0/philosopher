@@ -6,7 +6,7 @@
 #    By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/27 14:28:54 by earnaud           #+#    #+#              #
-#    Updated: 2021/09/01 11:41:43 by earnaud          ###   ########.fr        #
+#    Updated: 2021/09/01 16:30:11 by earnaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SRCS		= main.c \
 				check_error.c \
 				sleep.c \
 				forks.c \
-				algo_sem.c
+				algo_sem.c \
+				process.c
 
 OBJS		= $(SRCS:.c=.o)
 NAME		= philo_bonus
