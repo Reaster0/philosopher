@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:39:57 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 14:43:25 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/02 15:11:48 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,11 @@ void	*routine(t_philosopher *philo)
 {
 	long long		time;
 	
-	usleep(100);
+	//philo->param->time_start = get_time(philo->param);
+	sem_wait(philo->param->starting_block);
+	sem_post(philo->param->starting_block);
+
+	//usleep(100);
 	while (check_all_alive(philo))
 	{
 		time = get_time(philo->param);

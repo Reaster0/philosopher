@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 14:42:07 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/02 15:03:47 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,8 @@ int	set_philo(t_philosopher **philo, char **argv)
 	sem_unlink("writing");
 	param->sem_alive = sem_open("all_alive", O_CREAT | O_EXCL, 0644, 1);
 	sem_unlink("all_alive");
-	//param->starting_block = sem_open("starting", O_CREAT | O_EXCL, 0644, param->nbr_philo);
-	//sem_unlink("starting");
-	//setup_sem_starting(param->starting_block, param->nbr_philo);
+	param->starting_block = sem_open("starting", O_CREAT | O_EXCL, 0644, 1);
+	sem_unlink("starting");
 	//end of semaphore
 	if (create_philo(philo, param))
 		return (1);

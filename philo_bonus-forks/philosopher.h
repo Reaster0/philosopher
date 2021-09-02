@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 14:43:07 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/02 14:58:46 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_param
 	int				all_alive;
 	sem_t			*writing;
 	sem_t			*sem_alive;
+	sem_t			*starting_block;
 	pthread_mutex_t	*alive_mutex;
 	long long		time_start;
 }					t_param;

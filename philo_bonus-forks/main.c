@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:52:58 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 14:43:35 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/02 15:00:39 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv)
 		return (free_all(&philo));
 	if (fork_create_assign(philo, philo->param->nbr_philo))
 		return (free_all(&philo));
-	philo->param->time_start = get_time(philo->param);
+	//philo->param->time_start = get_time(philo->param);
 	if (process_create(philo))
 		return (free_all(&philo));
 	//if (thread_create(philo, philo->param->nbr_philo))
