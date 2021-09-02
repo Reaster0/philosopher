@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 14:58:46 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/02 17:57:13 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_param
 	int				time_to_sleep;
 	int				nbr_philo_eat;
 	int				all_alive;
+	int				*id_list;
 	sem_t			*writing;
 	sem_t			*sem_alive;
 	sem_t			*starting_block;
@@ -83,5 +84,7 @@ int			fork_create_assign(t_philosopher *philo, int nbr);
 void		algorythm_sem(t_philosopher *philo);
 int			process_create(t_philosopher *philo);
 void		setup_sem_launching(sem_t *starting, int nbr);
+void		*pre_routine(void *arg);
+
 
 #endif

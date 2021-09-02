@@ -9,7 +9,7 @@
 			"request": "launch",
 			"name": "Launch",
 			"program": "${workspaceFolder}/philo_bonus-forks/philo_bonus",
-			"args": ["4", "190", "200", "200"],
+			"args": ["100", "190", "200", "200"],
 			"cwd": "${workspaceFolder}"
 		},
 		{

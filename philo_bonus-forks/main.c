@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:52:58 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 16:00:50 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/02 18:49:20 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,8 @@ int	ft_error(void)
 
 int	free_all(t_philosopher **philo)
 {
-	//pthread_mutex_destroy((*philo)->param->alive_mutex);
 	sem_close((*philo)->param->sem_alive);
-	//free((*philo)->param->alive_mutex);
+	free((*philo)->param->id_list);
 	free((*philo)->param);
 	sem_close((*philo)->forks);
 	free(*philo);
@@ -59,12 +58,12 @@ int	main(int argc, char **argv)
 	if (fork_create_assign(philo, philo->param->nbr_philo))
 		return (free_all(&philo));
 	//philo->param->time_start = get_time(philo->param);
-	if (process_create(philo))
+	//if (process_create(philo))
+	//	return (free_all(&philo));
+	if (thread_create(philo, philo->param->nbr_philo))
 		return (free_all(&philo));
-	//if (thread_create(philo, philo->param->nbr_philo))
-	//	return (free_all(&philo));
-	//if (thread_join(philo, philo->param->nbr_philo))
-	//	return (free_all(&philo));
+	if (thread_join(philo, philo->param->nbr_philo))
+		return (free_all(&philo));
 	free_all(&philo);
 	return (0);
 }

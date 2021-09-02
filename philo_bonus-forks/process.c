@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/01 15:35:04 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 15:11:40 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/02 16:02:35 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int process_create(t_philosopher *philo)
 	sem_wait(philo->param->starting_block);
 	while (i < philo->param->nbr_philo)
 	{
+		
 		process[i] = fork();
 		//if (process[i] == -1)
 		//	return (1);

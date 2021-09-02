@@ -6,25 +6,44 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 15:03:47 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/02 18:54:23 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-// int	thread_create(t_philosopher *philo, int nbr)
-// {
-// 	int	i;
+void kill_all(int *id_list, int nbr, int *all_alive)
+{
+	int i;
 
-// 	i = 0;
-// 	while (i < nbr)
-// 	{
-// 		if (pthread_create(&(philo + i)->thread, NULL, &routine, philo + i))
-// 			return (1);
-// 		i++;
-// 	}
-// 	return (0);
-// }
+	if (!all_alive)
+		return ;
+	i = 0;
+	all_alive = 0;
+	while (i <= nbr)
+	{
+		kill(id_list[i], SIGINT);
+		i++;
+	}
+}
+
+int	thread_create(t_philosopher *philo, int nbr)
+{
+	int	i;
+
+	i = 0;
+	sem_wait(philo->param->starting_block);
+	philo->param->time_start = get_time(philo->param);
+	while (i < nbr)
+	{
+		if (pthread_create(&(philo + i)->thread, NULL, &pre_routine, philo + i))
+			return (1);
+		i++;
+	}
+	sem_post(philo->param->starting_block);
+	kill_all(philo->param->id_list, philo->param->nbr_philo, &(philo->param->all_alive));
+	return (0);
+}
 
 int	set_mutex(t_param *param)
 {
@@ -101,6 +120,9 @@ int	set_philo(t_philosopher **philo, char **argv)
 		param->nbr_philo_eat = ft_atoi(*argv);
 	else
 		param->nbr_philo_eat = -1;
+	param->id_list = malloc(sizeof(int) * param->nbr_philo);
+	if (!param->id_list)
+		return (0);
 	//all the semaphore
 	param->writing = sem_open("writing", O_CREAT | O_EXCL, 0644, 1);
 	sem_unlink("writing");
@@ -134,7 +156,8 @@ void	write_action(t_state state, int id_philo,
 		printf("%lld %d has taken a fork\n", time, id_philo + 1);
 	else if (state == DIE)
 		printf("%lld %d has die\n", time, id_philo + 1);
-	sem_post(param->writing);
+	if (state != DIE)
+		sem_post(param->writing);
 }
 
 void	ft_putchar(char c)

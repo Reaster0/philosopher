@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:39:57 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 15:18:41 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/02 18:44:25 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	*die(t_philosopher *philo)
 	//philo->param->all_alive = 0;
 	//pthread_mutex_unlock(philo->param->alive_mutex);
 	write_action(DIE, philo->id, philo->param, philo);
-	sem_wait(philo->param->writing);
 	exit (0);
 	//return (0);
 }
@@ -45,12 +44,11 @@ int	check_all_alive(t_philosopher *philo)
 void	*routine(t_philosopher *philo)
 {
 	long long		time;
-	
-	//philo->param->time_start -= (philo->param->time_start - get_time(philo->param));
+
 	sem_wait(philo->param->starting_block);
 	sem_post(philo->param->starting_block);
-
-	//usleep(100);
+	if (philo->id > philo->param->nbr_philo / 2)
+		ft_sleep(1);
 	while (check_all_alive(philo))
 	{
 		time = get_time(philo->param);
@@ -63,4 +61,19 @@ void	*routine(t_philosopher *philo)
 			algorythm_sem(philo);
 	}
 	exit (0);
+}
+
+void	*pre_routine(void *arg)
+{
+	t_philosopher	*philo;
+
+	philo = (t_philosopher *)arg;
+	philo->param->id_list[philo->id] = fork();
+	if (!philo->param->id_list[philo->id])
+	{
+		free(philo->param->id_list);
+		routine(philo);
+	}
+	wait(NULL);
+	return (0);
 }
