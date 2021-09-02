@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/01 18:44:49 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/02 14:43:07 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,6 @@ void		odd_late_fork(t_philosopher *philo);
 int			fork_create_assign(t_philosopher *philo, int nbr);
 void		algorythm_sem(t_philosopher *philo);
 int			process_create(t_philosopher *philo);
-
+void		setup_sem_launching(sem_t *starting, int nbr);
 
 #endif

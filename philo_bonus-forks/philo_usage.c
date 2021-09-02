@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/01 18:44:21 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/02 14:42:07 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,30 @@ int	create_philo(t_philosopher **philo, t_param *param)
 	return (0);
 }
 
+void setup_sem_starting(sem_t *starting, int nbr)
+{
+	int i;
+
+	i = 0;
+	while (i < nbr)
+	{
+		sem_wait(starting);
+		i++;
+	}
+}
+
+void setup_sem_launching(sem_t *starting, int nbr)
+{
+	int i;
+
+	i = 0;
+	while (i < nbr)
+	{
+		sem_post(starting);
+		i++;
+	}
+}
+
 int	set_philo(t_philosopher **philo, char **argv)
 {
 	t_param	*param;
@@ -77,10 +101,15 @@ int	set_philo(t_philosopher **philo, char **argv)
 		param->nbr_philo_eat = ft_atoi(*argv);
 	else
 		param->nbr_philo_eat = -1;
+	//all the semaphore
+	param->writing = sem_open("writing", O_CREAT | O_EXCL, 0644, 1);
 	sem_unlink("writing");
-	param->writing = sem_open("writing", O_CREAT, S_IRWXU, 1);
+	param->sem_alive = sem_open("all_alive", O_CREAT | O_EXCL, 0644, 1);
 	sem_unlink("all_alive");
-	param->sem_alive = sem_open("all_alive", O_CREAT, S_IRWXU, 1);
+	//param->starting_block = sem_open("starting", O_CREAT | O_EXCL, 0644, param->nbr_philo);
+	//sem_unlink("starting");
+	//setup_sem_starting(param->starting_block, param->nbr_philo);
+	//end of semaphore
 	if (create_philo(philo, param))
 		return (1);
 	return (0);

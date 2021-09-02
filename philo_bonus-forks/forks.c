@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 13:49:27 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/31 19:35:22 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/02 13:38:23 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	fork_create_assign(t_philosopher *philo, int nbr)
 	sem_t			*forks;
 
 	i = 0;
+	forks = sem_open("forks", O_CREAT | O_EXCL, 0644, nbr);
 	sem_unlink("forks");
-	forks = sem_open("forks", O_CREAT, S_IRWXU, nbr);
 	if (forks == SEM_FAILED)
 		return (1);
 	while (i < nbr)

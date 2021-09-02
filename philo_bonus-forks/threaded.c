@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:39:57 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/01 18:19:16 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/02 14:43:25 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	*die(t_philosopher *philo)
 	//philo->param->all_alive = 0;
 	//pthread_mutex_unlock(philo->param->alive_mutex);
 	write_action(DIE, philo->id, philo->param, philo);
+	sem_wait(philo->param->writing);
 	exit (0);
 	//return (0);
 }
@@ -44,7 +45,8 @@ int	check_all_alive(t_philosopher *philo)
 void	*routine(t_philosopher *philo)
 {
 	long long		time;
-
+	
+	usleep(100);
 	while (check_all_alive(philo))
 	{
 		time = get_time(philo->param);
@@ -53,10 +55,8 @@ void	*routine(t_philosopher *philo)
 			die(philo);
 			exit (0);
 		}
-		// else if (philo->param->nbr_philo % 2)
-		// 	algorythm_odd(philo);
 		else
 			algorythm_sem(philo);
 	}
-	return (0);
+	exit (0);
 }
