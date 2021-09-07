@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:39:57 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 18:44:25 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/07 16:54:05 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,21 @@ void	*routine(t_philosopher *philo)
 	exit (0);
 }
 
+void kill_all(int *id_list, int nbr, int *all_alive)
+{
+	int i;
+
+	if (!all_alive)
+		return ;
+	i = 0;
+	all_alive = 0;
+	while (i < nbr)
+	{
+		kill(id_list[i], SIGINT);
+		i++;
+	}
+}
+
 void	*pre_routine(void *arg)
 {
 	t_philosopher	*philo;
@@ -75,5 +90,6 @@ void	*pre_routine(void *arg)
 		routine(philo);
 	}
 	wait(NULL);
+	kill_all(philo->param->id_list, philo->param->nbr_philo, &(philo->param->all_alive));
 	return (0);
 }

@@ -6,26 +6,11 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 18:54:23 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/07 16:54:34 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
-
-void kill_all(int *id_list, int nbr, int *all_alive)
-{
-	int i;
-
-	if (!all_alive)
-		return ;
-	i = 0;
-	all_alive = 0;
-	while (i <= nbr)
-	{
-		kill(id_list[i], SIGINT);
-		i++;
-	}
-}
 
 int	thread_create(t_philosopher *philo, int nbr)
 {
@@ -41,7 +26,8 @@ int	thread_create(t_philosopher *philo, int nbr)
 		i++;
 	}
 	sem_post(philo->param->starting_block);
-	kill_all(philo->param->id_list, philo->param->nbr_philo, &(philo->param->all_alive));
+	//wait(NULL);
+	//kill_all(philo->param->id_list, philo->param->nbr_philo, &(philo->param->all_alive));
 	return (0);
 }
 

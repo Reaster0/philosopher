@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 17:57:13 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/07 14:52:54 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <semaphore.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <sys/wait.h>
 
 typedef enum e_state
 {

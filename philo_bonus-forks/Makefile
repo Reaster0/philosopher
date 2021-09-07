@@ -6,7 +6,7 @@
 #    By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/27 14:28:54 by earnaud           #+#    #+#              #
-#    Updated: 2021/09/02 14:23:50 by earnaud          ###   ########.fr        #
+#    Updated: 2021/09/07 14:51:23 by earnaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRCS		= main.c \
 OBJS		= $(SRCS:.c=.o)
 NAME		= philo_bonus
 cc			= clang
-CFLAGS		= -pthread -g -Wall -Wextra -Werror
+CFLAGS		= -pthread -g #-Wall -Wextra -Werror
 %.o:		%.c
 			$(CC) $(CFLAGS) -c $< -o $@
 all:		$(NAME)
