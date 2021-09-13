@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:52:58 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/13 11:47:34 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/13 15:27:06 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ int	ft_error(void)
 
 int	free_all(t_philosopher **philo)
 {
-	sem_close((*philo)->param->sem_alive);
+	//sem_close((*philo)->param->sem_alive);
 	free((*philo)->param->id_list);
 	free((*philo)->param);
-	sem_close((*philo)->forks);
+	//sem_close((*philo)->forks);
 	free(*philo);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/13 11:28:19 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/13 14:58:08 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	thread_create(t_philosopher *philo, int nbr)
 	philo->param->time_start = get_time(philo->param);
 	while (i < nbr)
 	{
-		if (pthread_create(&(philo + i)->thread, NULL, &pre_routine, philo + i))
+		if (pthread_create(&(philo + i)->thread, NULL, &pre_routine, (philo + i)))
 			return (1);
 		i++;
 	}
