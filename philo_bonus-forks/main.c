@@ -6,11 +6,22 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:52:58 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 18:49:20 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/13 11:47:34 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+int thread_detach(t_philosopher *philo, int nbr)
+{
+	int	i;
+
+	i = 0;
+	while (i < nbr)
+		if (pthread_detach((philo + i++)->thread))
+			return (1);
+	return (0);
+}
 
 int	thread_join(t_philosopher *philo, int nbr)
 {
@@ -63,6 +74,8 @@ int	main(int argc, char **argv)
 	if (thread_create(philo, philo->param->nbr_philo))
 		return (free_all(&philo));
 	if (thread_join(philo, philo->param->nbr_philo))
+		return (free_all(&philo));
+	if (thread_detach(philo, philo->param->nbr_philo))
 		return (free_all(&philo));
 	free_all(&philo);
 	return (0);

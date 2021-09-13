@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/07 14:52:54 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/13 11:24:30 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_param
 	sem_t			*writing;
 	sem_t			*sem_alive;
 	sem_t			*starting_block;
-	pthread_mutex_t	*alive_mutex;
 	long long		time_start;
 }					t_param;
 
@@ -54,8 +53,6 @@ typedef struct s_philosopher
 	int				id;
 	pthread_t		thread;
 	sem_t			*forks;
-	pthread_mutex_t	*fork_left;
-	pthread_mutex_t	*fork_right;
 	t_state			state;
 	t_param			*param;
 	int				nbr_eat;
