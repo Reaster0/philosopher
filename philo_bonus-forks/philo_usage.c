@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/13 14:58:08 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/13 16:45:14 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	thread_create(t_philosopher *philo, int nbr)
 	philo->param->time_start = get_time(philo->param);
 	while (i < nbr)
 	{
-		if (pthread_create(&(philo + i)->thread, NULL, &pre_routine, (philo + i)))
+		if (pthread_create(&(philo + i)->thread, NULL, &pre_routine,
+				(philo + i)))
 			return (1);
 		i++;
 	}
@@ -47,37 +48,8 @@ int	create_philo(t_philosopher **philo, t_param *param)
 	return (0);
 }
 
-void setup_sem_starting(sem_t *starting, int nbr)
+int	set_param(t_param *param, char **argv)
 {
-	int i;
-
-	i = 0;
-	while (i < nbr)
-	{
-		sem_wait(starting);
-		i++;
-	}
-}
-
-void setup_sem_launching(sem_t *starting, int nbr)
-{
-	int i;
-
-	i = 0;
-	while (i < nbr)
-	{
-		sem_post(starting);
-		i++;
-	}
-}
-
-int	set_philo(t_philosopher **philo, char **argv)
-{
-	t_param	*param;
-
-	param = malloc(sizeof(t_param));
-	if (!param)
-		return (1);
 	argv++;
 	param->time_start = 0;
 	param->nbr_philo = ft_atoi(*argv);
@@ -94,15 +66,25 @@ int	set_philo(t_philosopher **philo, char **argv)
 		param->nbr_philo_eat = -1;
 	param->id_list = malloc(sizeof(int) * param->nbr_philo);
 	if (!param->id_list)
-		return (0);
-	//all the semaphore
+		return (1);
+	return (0);
+}
+
+int	set_philo(t_philosopher **philo, char **argv)
+{
+	t_param	*param;
+
+	param = malloc(sizeof(t_param));
+	if (!param)
+		return (1);
+	if (set_param(param, argv))
+		return (1);
 	param->writing = sem_open("writing", O_CREAT | O_EXCL, 0644, 1);
 	sem_unlink("writing");
 	param->sem_alive = sem_open("all_alive", O_CREAT | O_EXCL, 0644, 1);
 	sem_unlink("all_alive");
 	param->starting_block = sem_open("starting", O_CREAT | O_EXCL, 0644, 1);
 	sem_unlink("starting");
-	//end of semaphore
 	if (create_philo(philo, param))
 		return (1);
 	return (0);
@@ -131,80 +113,3 @@ void	write_action(t_state state, int id_philo,
 	if (state != DIE)
 		sem_post(param->writing);
 }
-
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-void	ft_putnbr(long long n)
-{
-	long long nb;
-
-	nb = n;
-	if (n < 0)
-	{
-		write(1, "-", 1);
-		nb = -nb;
-	}
-	if (nb > 9)
-	{
-		ft_putnbr(nb / 10);
-		ft_putchar((nb % 10) + '0');
-	}
-	else
-		ft_putchar(nb + '0');
-}
-
-void	ft_putstr(char *s)
-{
-	size_t i;
-
-	i = 0;
-	while (s[i])
-		write(1, &s[i++], 1);
-}
-
-// void	write_action(t_state state, int id_philo,
-// 			t_param *param, t_philosopher *philo)
-// {
-// 	long long	time;
-
-// 	time = get_time(param);
-// 	if (state == EATING)
-// 	{
-// 		ft_putnbr(time);
-// 		ft_putchar(' ');
-// 		ft_putnbr(id_philo + 1);
-// 		ft_putstr(" is eating\n");
-// 		philo->nbr_eat--;
-// 	}
-// 	else if (state == THINKING)
-// 	{
-// 		ft_putnbr(time);
-// 		ft_putchar(' ');
-// 		ft_putnbr(id_philo + 1);
-// 		ft_putstr(" is thinking\n");
-// 	}
-// 	else if (state == SLEEPING)
-// 	{
-// 		ft_putnbr(time);
-// 		ft_putchar(' ');
-// 		ft_putnbr(id_philo + 1);
-// 		ft_putstr(" is sleeping\n");
-// 	}
-// 	else if (state == TAKE_FORK)
-// 	{
-// 		ft_putnbr(time);
-// 		ft_putchar(' ');
-// 		ft_putnbr(id_philo + 1);
-// 		ft_putstr(" has taken a fork\n");
-// 	}
-// 	else if (state == DIE)
-// 	{
-// 		ft_putnbr(time);
-// 		ft_putchar(' ');
-// 		ft_putnbr(id_philo + 1);
-// 		ft_putstr(" has die\n");
-// 	}
-// }

@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 17:56:17 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/01 15:04:37 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/13 18:31:48 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@ void	time_to_sleep(t_philosopher *philo, long long sleep, long long time)
 	need_die = 0;
 	if (sleep >= time)
 	{
-			//		printf("%d will sleep for %lld\n", philo->id, philo->param->time_to_die - (time - philo->last_meal));
 		ft_sleep(philo->param->time_to_die - (time - philo->last_meal));
 		need_die = 1;
 	}
 	else if (time < philo->param->time_to_die)
 	{
-			//		printf("%d will sleep for %lld\n", philo->id, philo->param->time_to_die - time);
 		ft_sleep(philo->param->time_to_die - time);
 		need_die = 1;
 	}
@@ -47,7 +45,6 @@ void	philo_sleep(t_philosopher *philo, long long sleep, int eat)
 		time_to_sleep(philo, sleep, time);
 	else
 	{
-		//	printf("%d will sleep for %lld\n", philo->id, sleep);
 		ft_sleep(sleep);
 	}
 }

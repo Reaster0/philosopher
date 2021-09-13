@@ -6,33 +6,11 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:52:58 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/13 15:27:06 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/13 16:12:21 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
-
-int thread_detach(t_philosopher *philo, int nbr)
-{
-	int	i;
-
-	i = 0;
-	while (i < nbr)
-		if (pthread_detach((philo + i++)->thread))
-			return (1);
-	return (0);
-}
-
-int	thread_join(t_philosopher *philo, int nbr)
-{
-	int	i;
-
-	i = 0;
-	while (i < nbr)
-		if (pthread_join((philo + i++)->thread, NULL))
-			return (1);
-	return (0);
-}
 
 long long	get_time(t_param *param)
 {
@@ -50,10 +28,8 @@ int	ft_error(void)
 
 int	free_all(t_philosopher **philo)
 {
-	//sem_close((*philo)->param->sem_alive);
 	free((*philo)->param->id_list);
 	free((*philo)->param);
-	//sem_close((*philo)->forks);
 	free(*philo);
 	return (1);
 }
@@ -68,9 +44,6 @@ int	main(int argc, char **argv)
 		return (free_all(&philo));
 	if (fork_create_assign(philo, philo->param->nbr_philo))
 		return (free_all(&philo));
-	//philo->param->time_start = get_time(philo->param);
-	//if (process_create(philo))
-	//	return (free_all(&philo));
 	if (thread_create(philo, philo->param->nbr_philo))
 		return (free_all(&philo));
 	if (thread_join(philo, philo->param->nbr_philo))

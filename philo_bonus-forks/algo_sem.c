@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 18:30:54 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/02 17:20:06 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/13 16:08:17 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void	algorythm_sem(t_philosopher *philo)
 			eat_one(philo);
 			return ;
 		}
-		//if ((philo->id + 1) % 2)
-			//usleep(100);
 		eat_sem(philo);
 		philo->state = EATING;
 	}

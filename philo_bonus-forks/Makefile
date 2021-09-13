@@ -6,7 +6,7 @@
 #    By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/27 14:28:54 by earnaud           #+#    #+#              #
-#    Updated: 2021/09/13 15:40:04 by earnaud          ###   ########.fr        #
+#    Updated: 2021/09/13 18:31:08 by earnaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,17 +15,16 @@ SRCS		= main.c \
 				threaded.c \
 				utils.c \
 				algo_even.c \
-				algo_odd.c \
 				check_error.c \
 				sleep.c \
 				forks.c \
 				algo_sem.c \
-				process.c
+				threads.c
 
 OBJS		= $(SRCS:.c=.o)
 NAME		= philo_bonus
 cc			= clang
-CFLAGS		= -pthread -g -Wall -Wextra -Werror
+CFLAGS		= -pthread -Wall -Wextra -Werror
 %.o:		%.c
 			$(CC) $(CFLAGS) -c $< -o $@
 all:		$(NAME)
