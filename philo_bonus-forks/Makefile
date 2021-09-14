@@ -6,7 +6,7 @@
 #    By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/27 14:28:54 by earnaud           #+#    #+#              #
-#    Updated: 2021/09/13 18:31:08 by earnaud          ###   ########.fr        #
+#    Updated: 2021/09/14 12:15:34 by earnaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@ SRCS		= main.c \
 				philo_usage.c \
 				threaded.c \
 				utils.c \
-				algo_even.c \
 				check_error.c \
 				sleep.c \
 				forks.c \

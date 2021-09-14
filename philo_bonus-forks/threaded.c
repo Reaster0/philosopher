@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:39:57 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/14 12:09:01 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/14 13:38:23 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	*routine(t_philosopher *philo)
 
 	sem_wait(philo->param->starting_block);
 	sem_post(philo->param->starting_block);
-	if (philo->id > philo->param->nbr_philo / 2)
-		usleep(200);
+	if (philo->id % 2)
+		ft_sleep(philo->param->time_to_eat);
 	while (check_all_alive(philo))
 	{
 		time = get_time(philo->param);
@@ -50,7 +50,6 @@ void	*routine(t_philosopher *philo)
 		}
 		else
 		{
-			//printf("time %lld - last meal %lld time to die %d\n", time, philo->last_meal, philo->param->time_to_die);
 			algorythm_sem(philo);
 		}
 	}
