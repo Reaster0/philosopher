@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:37:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/31 13:50:34 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/14 14:35:06 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,5 @@ void	write_action(t_state state, int id_philo,
 	else if (state == TAKE_FORK)
 		printf("%lld %d has taken a fork\n", time, id_philo + 1);
 	else if (state == DIE)
-		printf("%lld %d has die\n", time, id_philo + 1);
+		printf("%lld %d died\n", time, id_philo + 1);
 }
