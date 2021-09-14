@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/26 17:56:17 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/13 18:31:48 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/14 11:31:07 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	philo_sleep(t_philosopher *philo, long long sleep, int eat)
 	time = get_time(philo->param);
 	if (eat)
 		philo->last_meal = time;
-	if ((time - philo->last_meal) + sleep > philo->param->time_to_die
+	if ((time - philo->last_meal) + sleep >= philo->param->time_to_die
 		|| sleep >= philo->param->time_to_die)
 		time_to_sleep(philo, sleep, time);
 	else

@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:39:57 by earnaud           #+#    #+#             */
-/*   Updated: 2021/08/31 13:58:46 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/14 11:29:05 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	*routine(void *arg)
 	while (check_all_alive(philo->param, philo))
 	{
 		time = get_time(philo->param);
-		if ((time - philo->last_meal) > philo->param->time_to_die)
+		if ((time - philo->last_meal) >= philo->param->time_to_die)
 		{
 			die(philo);
 			break ;
