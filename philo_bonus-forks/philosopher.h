@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:53:12 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/13 18:35:28 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/14 18:23:26 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ void		*pre_routine(void *arg);
 void		copy_philo_stack(t_philosopher *src,
 				t_philosopher *dst, t_param *param);
 void		copy_param_stack(t_param *src, t_param *dst);
+void		odd_late_fork(t_philosopher *philo);
 
 #endif
