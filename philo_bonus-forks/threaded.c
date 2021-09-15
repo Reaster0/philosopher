@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:39:57 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/14 13:38:23 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/14 15:54:15 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	*routine(t_philosopher *philo)
 
 	sem_wait(philo->param->starting_block);
 	sem_post(philo->param->starting_block);
-	if (philo->id % 2)
+	if ((philo->id + 1) % 2)
 		ft_sleep(philo->param->time_to_eat);
 	while (check_all_alive(philo))
 	{
