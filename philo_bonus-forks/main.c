@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/27 11:52:58 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/13 16:12:21 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/15 09:50:49 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ int	main(int argc, char **argv)
 	if (thread_create(philo, philo->param->nbr_philo))
 		return (free_all(&philo));
 	if (thread_join(philo, philo->param->nbr_philo))
-		return (free_all(&philo));
-	if (thread_detach(philo, philo->param->nbr_philo))
 		return (free_all(&philo));
 	free_all(&philo);
 	return (0);
