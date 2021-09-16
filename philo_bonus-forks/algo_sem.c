@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 18:30:54 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/14 18:22:26 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/16 16:23:26 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	even_late_fork(t_philosopher *philo)
 {
 	if (philo->param->time_to_die < philo->param->time_to_eat * 2
 		+ philo->param->time_to_sleep || philo->param->time_to_die
-		< philo->param->time_to_sleep * 2 + philo->param->time_to_die)
+		< philo->param->time_to_sleep * 2 + philo->param->time_to_eat)
 	{
 		write_action(TAKE_FORK, philo->id, philo->param, philo);
 		sem_wait(philo->forks);

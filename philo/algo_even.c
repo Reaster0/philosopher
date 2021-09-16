@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/02 17:52:59 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/16 15:46:40 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/16 16:29:28 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,15 @@ void	eat_even(t_philosopher *philo)
 
 void	secure_case(t_philosopher *philo)
 {
-	if (philo->param->time_to_eat * 2 > philo->param->time_to_die && check_all_alive(philo->param, philo))
+	if (philo->param->time_to_eat * 2 > philo->param->time_to_die
+		&& check_all_alive(philo->param, philo))
 	{
-		//printf("%d is dead in secure case\n", philo->id + 1);
 		write_action(TAKE_FORK, philo->id, philo->param, philo);
 		pthread_mutex_lock(philo->fork_right);
 		if (!check_all_alive(philo->param, philo))
 		{
 			pthread_mutex_unlock(philo->fork_right);
-			return;
+			return ;
 		}
 		write_action(TAKE_FORK, philo->id, philo->param, philo);
 		pthread_mutex_lock(philo->fork_left);
@@ -69,7 +69,7 @@ void	secure_case(t_philosopher *philo)
 		{
 			pthread_mutex_unlock(philo->fork_left);
 			pthread_mutex_unlock(philo->fork_right);
-			return;
+			return ;
 		}
 		write_action(EATING, philo->id, philo->param, philo);
 		ft_sleep(philo->param->time_to_die - (get_time(philo->param)));
@@ -77,35 +77,6 @@ void	secure_case(t_philosopher *philo)
 		pthread_mutex_unlock(philo->fork_left);
 		die(philo);
 	}
-	// if (philo->param->time_to_sleep * 2 > philo->param->time_to_die && check_all_alive(philo->param, philo))
-	// {
-	// 	//printf("%d is dead in secure case\n", philo->id + 1);
-	// 	write_action(TAKE_FORK, philo->id, philo->param, philo);
-	// 	pthread_mutex_lock(philo->fork_right);
-	// 	if (!check_all_alive(philo->param, philo))
-	// 	{
-	// 		pthread_mutex_unlock(philo->fork_right);
-	// 		return;
-	// 	}
-	// 	write_action(TAKE_FORK, philo->id, philo->param, philo);
-	// 	pthread_mutex_lock(philo->fork_left);
-	// 	write_action(EATING, philo->id, philo->param, philo);
-	// 	if (!check_all_alive(philo->param, philo))
-	// 	{
-	// 		pthread_mutex_unlock(philo->fork_left);
-	// 		pthread_mutex_unlock(philo->fork_right);
-	// 		return;
-	// 	}
-	// 	ft_sleep(philo->param->time_to_eat);
-	// 	pthread_mutex_unlock(philo->fork_right);
-	// 	pthread_mutex_unlock(philo->fork_left);
-	// 	write_action(SLEEPING, philo->id, philo->param, philo);
-	// 	if (philo->last_meal)
-	// 	ft_sleep(philo->param->time_to_die - (get_time(philo->param) -  philo->last_meal) - philo->param->time_to_eat);
-	// 	else
-	// 		ft_sleep(philo->param->time_to_die - (get_time(philo->param)));
-	// 	die(philo);
-	// }
 }
 
 void	eat_odd(t_philosopher *philo)
