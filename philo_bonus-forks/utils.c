@@ -6,7 +6,7 @@
 /*   By: earnaud <earnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/30 18:45:08 by earnaud           #+#    #+#             */
-/*   Updated: 2021/09/14 18:22:14 by earnaud          ###   ########.fr       */
+/*   Updated: 2021/09/16 15:51:40 by earnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	copy_param_stack(t_param *src, t_param *dst)
 
 void	odd_late_fork2(t_philosopher *philo)
 {
-	if (philo->param->time_to_eat * 2 > philo->param->time_to_die)
+	if (philo->param->time_to_eat * 2 > philo->param->time_to_die && check_all_alive(philo))
 	{
 		write_action(TAKE_FORK, philo->id, philo->param, philo);
 		sem_wait(philo->forks);
@@ -71,20 +71,20 @@ void	odd_late_fork2(t_philosopher *philo)
 		ft_sleep(philo->param->time_to_die - (get_time(philo->param)));
 		die(philo);
 	}
-	if (philo->param->time_to_sleep * 2 > philo->param->time_to_die)
-	{
-		write_action(TAKE_FORK, philo->id, philo->param, philo);
-		sem_wait(philo->forks);
-		write_action(TAKE_FORK, philo->id, philo->param, philo);
-		sem_wait(philo->forks);
-		write_action(EATING, philo->id, philo->param, philo);
-		ft_sleep(philo->param->time_to_eat);
-		sem_post(philo->forks);
-		sem_post(philo->forks);
-		write_action(SLEEPING, philo->id, philo->param, philo);
-		ft_sleep(philo->param->time_to_die - (get_time(philo->param)));
-		die(philo);
-	}
+	// if (philo->param->time_to_sleep * 2 > philo->param->time_to_die && check_all_alive(philo))
+	// {
+	// 	write_action(TAKE_FORK, philo->id, philo->param, philo);
+	// 	sem_wait(philo->forks);
+	// 	write_action(TAKE_FORK, philo->id, philo->param, philo);
+	// 	sem_wait(philo->forks);
+	// 	write_action(EATING, philo->id, philo->param, philo);
+	// 	ft_sleep(philo->param->time_to_eat);
+	// 	sem_post(philo->forks);
+	// 	sem_post(philo->forks);
+	// 	write_action(SLEEPING, philo->id, philo->param, philo);
+	// 	ft_sleep(philo->param->time_to_die - (get_time(philo->param)));
+	// 	die(philo);
+	// }
 }
 
 void	odd_late_fork(t_philosopher *philo)
